@@ -5,11 +5,13 @@ import org.json.*;
 import fuzzyai.abstracoes.AFuncaoPertinencia;
 import fuzzyai.implementacoes.funcoespertinencia.Trapezio;
 import fuzzyai.implementacoes.funcoespertinencia.Triangulo;
+import fuzzyai.utils.Coordenada;
 import fuzzyai.utils.VariavelFuzzyficada;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public final class ModeloFuzzy {
     
@@ -127,6 +129,22 @@ public final class ModeloFuzzy {
         }
         
         return variaveisFuzzyficadas;
+    }
+    
+    public ArrayList<Coordenada> inferir(ArrayList<VariavelFuzzyficada> variaveisFuzzyficadas) {
+        return this.realizarInferencia2(this.realizarInferencia1(variaveisFuzzyficadas));
+    }
+    
+    public HashMap<String,Double> defuzzyficar(ArrayList<Coordenada> coordenadas) {
+        return null;
+    }
+    
+    private HashMap<String, Double> realizarInferencia1(ArrayList<VariavelFuzzyficada> variaveisFuzzyficadas) {
+        return null;
+    }
+    
+    private ArrayList<Coordenada> realizarInferencia2(HashMap<String, Double> valoresInferencia1) {
+        return null;
     }
     
     /**

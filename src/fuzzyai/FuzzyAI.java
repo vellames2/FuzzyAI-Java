@@ -1,5 +1,6 @@
 package fuzzyai;
 
+import fuzzyai.utils.Coordenada;
 import fuzzyai.utils.VariavelFuzzyficada;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -29,6 +30,9 @@ public class FuzzyAI {
                     System.out.println(keys[i] + " - " + variavelFuzzyficada.getResultado().get(keys[i].toString()));
                 }
             }
+            
+            ArrayList<Coordenada> imagemInferencia = modeloFuzzy.inferir(variaveisFuzzyficadas);
+            HashMap<String, Double> defuzzyficacao = modeloFuzzy.defuzzyficar(imagemInferencia);
         } catch (Exception e) {
             e.printStackTrace();
         }  
