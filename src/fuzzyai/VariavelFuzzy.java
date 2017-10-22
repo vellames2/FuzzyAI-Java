@@ -1,8 +1,9 @@
 package fuzzyai;
 
 import fuzzyai.abstracoes.AFuncaoPertinencia;
-import fuzzyai.utils.Coordenada;
+import fuzzyai.utils.VariavelFuzzyficada;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public final class VariavelFuzzy {
     private String nome;
@@ -32,20 +33,24 @@ public final class VariavelFuzzy {
         this.funcoesPertinencia = funcoesPertinencia;
     }
     
-    public void fuzzyficar(double x) {
-        System.out.println(this.nome);
+    public VariavelFuzzyficada fuzzyficar(double x) {
+        VariavelFuzzyficada variavelFuzzyficada = new VariavelFuzzyficada(this, x);
+        HashMap<String, Double> resultado = new HashMap<>();
+        
         // Varre todas as funções de pertinencia pra verificar em quais ela toca
         for(AFuncaoPertinencia funcaoPertinencia : this.funcoesPertinencia) {
-            Coordenada primeiroPonto = funcaoPertinencia.getPrimeiroPonto();
-            Coordenada ultimoPonto = funcaoPertinencia.getUltimoPonto();
+            double primeiroPonto = funcaoPertinencia.getPrimeiroPonto();
+            double ultimoPonto = funcaoPertinencia.getUltimoPonto();
             
             // Verifica se valor toca na atual iteração da função de pertinencia
-            System.out.println(funcaoPertinencia.getNome());
-            if((primeiroPonto != null && x >= primeiroPonto.getX()) || (ultimoPonto != null && x <= ultimoPonto.getX())) {
-                System.out.println(funcaoPertinencia.getValorPertinencia(x)); 
+            if((primeiroPonto != -1 && x >= primeiroPonto) || (ultimoPonto != -1 && x <= ultimoPonto)) {
+                resultado.put(funcaoPertinencia.getNome(), funcaoPertinencia.getValorPertinencia(x));
             } else {
-                System.out.println(0);
+                resultado.put(funcaoPertinencia.getNome(), 0d);
             }
         }
+        
+        variavelFuzzyficada.setResultado(resultado);
+        return variavelFuzzyficada;
     }
 }

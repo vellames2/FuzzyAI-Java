@@ -1,54 +1,65 @@
 package fuzzyai.implementacoes.funcoespertinencia;
 
 import fuzzyai.abstracoes.AFuncaoPertinencia;
-import fuzzyai.utils.Coordenada;
 
-public final class Trapezio extends AFuncaoPertinencia{
-    private Coordenada a,b,c,d;
-    
+public final class Trapezio extends AFuncaoPertinencia {
+    private double a,b,c,d;
+
     public Trapezio(String nome) throws IllegalArgumentException{
         super(nome);
     }
     
-    public Coordenada getA() {
+    public double getA() {
         return a;
     }
 
-    public void setA(Coordenada a) {
+    public void setA(double a) {
+        if(a < -1) {
+            throw new IllegalArgumentException("Utilize -1 para representar um ponto nulo");
+        }
         this.a = a;
     }
 
-    public Coordenada getB() {
+    public double getB() {
         return b;
     }
 
-    public void setB(Coordenada b) {
+    public void setB(double b) {
+        if(b < -1) {
+            throw new IllegalArgumentException("Utilize -1 para representar um ponto nulo");
+        }
         this.b = b;
     }
 
-    public Coordenada getC() {
+    public double getC() {
         return c;
     }
 
-    public void setC(Coordenada c) {
+    public void setC(double c) {
+        if(c < -1) {
+            throw new IllegalArgumentException("Utilize -1 para representar um ponto nulo");
+        }
         this.c = c;
     }
 
-    public Coordenada getD() {
+    public double getD() {
         return d;
     }
 
-    public void setD(Coordenada d) {
+    public void setD(double d) {
+        if(d < -1) {
+            throw new IllegalArgumentException("Utilize -1 para representar um ponto nulo");
+        }
         this.d = d;
     }
-
+    
     @Override
-    public Coordenada getPrimeiroPonto() {
+    public double getPrimeiroPonto() {
         return this.getA();
     }
 
     @Override
-    public Coordenada getUltimoPonto() {
+    public double getUltimoPonto() {
         return this.getD();
     }
 
@@ -57,28 +68,28 @@ public final class Trapezio extends AFuncaoPertinencia{
         
         boolean naoNulo;
         
-        naoNulo = this.getA() != null;
-        if(naoNulo && x < this.getA().getX()) {
+        naoNulo = this.getA() != -1;
+        if(naoNulo && x < this.getA()) {
             return 0;
         }
         
-        naoNulo = this.getA() != null && this.getB() != null;
-        if(naoNulo && (this.getA().getX() <= x && x < this.getB().getX())) {
-            return (x - this.getA().getX()) / (this.getB().getX() - this.getA().getX());
+        naoNulo = this.getA() != -1 && this.getB() != -1;
+        if(naoNulo && (this.getA() <= x && x < this.getB())) {
+            return (x - this.getA()) / (this.getB() - this.getA());
         }
         
-        naoNulo = this.getB() != null && this.getC() != null;
-        if(naoNulo && (this.getB().getX() <= x && x <= this.getC().getX())) {
+        naoNulo = this.getB() != -1 && this.getC() != -1;
+        if(naoNulo && (this.getB() <= x && x <= this.getC())) {
             return 1;
         }
         
-        naoNulo = this.getC() != null && this.getD() != null;
-        if(naoNulo && (this.getC().getX() < x && x < this.getD().getX())) {
-            return (this.getD().getX() - x) / (this.getD().getX() - this.getC().getX());
+        naoNulo = this.getC() != -1 && this.getD() != -1;
+        if(naoNulo && (this.getC() < x && x < this.getD())) {
+            return (this.getD() - x) / (this.getD() - this.getC());
         }
         
-        naoNulo = this.getD() != null;
-        if(naoNulo && (x >= this.getD().getX())) {
+        naoNulo = this.getD() != -1;
+        if(naoNulo && (x >= this.getD())) {
             return 0;
         }
         

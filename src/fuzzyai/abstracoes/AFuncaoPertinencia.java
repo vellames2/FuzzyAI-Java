@@ -1,12 +1,10 @@
 package fuzzyai.abstracoes;
 
-import fuzzyai.utils.Coordenada;
-
 public abstract class AFuncaoPertinencia {
 
     private String nome;
     
-    public AFuncaoPertinencia(String nome, Coordenada... coordenadas) throws IllegalArgumentException {
+    public AFuncaoPertinencia(String nome) throws IllegalArgumentException {
         this.setNome(nome);
     }
     
@@ -22,7 +20,7 @@ public abstract class AFuncaoPertinencia {
     }
     
     
-    public abstract Coordenada getPrimeiroPonto();
-    public abstract Coordenada getUltimoPonto();
+    public abstract double getPrimeiroPonto();
+    public abstract double getUltimoPonto();
     public abstract double getValorPertinencia(double x);
 }

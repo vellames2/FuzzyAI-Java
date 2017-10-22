@@ -1,47 +1,55 @@
 package fuzzyai.implementacoes.funcoespertinencia;
 
 import fuzzyai.abstracoes.AFuncaoPertinencia;
-import fuzzyai.utils.Coordenada;
 
-public class Triangulo extends AFuncaoPertinencia {
+public final class Triangulo extends AFuncaoPertinencia {
    
-    private Coordenada a,b,c;
+    private double a,b,c;
     
     public Triangulo(String nome) throws IllegalArgumentException{
         super(nome);
     }
 
-    public Coordenada getA() {
+    public double getA() {
         return a;
     }
 
-    public void setA(Coordenada a) {
+    public void setA(double a) {
+        if(a < -1) {
+            throw new IllegalArgumentException("Utilize -1 para representar um ponto nulo");
+        }
         this.a = a;
     }
 
-    public Coordenada getB() {
+    public double getB() {
         return b;
     }
 
-    public void setB(Coordenada b) {
+    public void setB(double b) {
+        if(b < -1) {
+            throw new IllegalArgumentException("Utilize -1 para representar um ponto nulo");
+        }
         this.b = b;
     }
 
-    public Coordenada getC() {
+    public double getC() {
         return c;
     }
 
-    public void setC(Coordenada c) {
+    public void setC(double c) {
+        if(c < -1) {
+            throw new IllegalArgumentException("Utilize -1 para representar um ponto nulo");
+        }
         this.c = c;
     }
     
     @Override
-    public Coordenada getPrimeiroPonto() {
+    public double getPrimeiroPonto() {
         return this.getA();
     }
 
     @Override
-    public Coordenada getUltimoPonto() {
+    public double getUltimoPonto() {
         return this.getC();
     }
 
@@ -49,23 +57,23 @@ public class Triangulo extends AFuncaoPertinencia {
     public double getValorPertinencia(double x) {
         boolean naoNulo;
         
-        naoNulo = this.getA() != null;
-        if(naoNulo && (x < this.getA().getX())) {
+        naoNulo = this.getA() != -1;
+        if(naoNulo && (x < this.getA())) {
             return 0;
         }
         
-        naoNulo = this.getA() != null && this.getB() != null;
-        if(naoNulo && (this.getA().getX() <= x && x < this.getB().getX())) {
-            return (x - this.getA().getX()) / (this.getB().getX() - this.getA().getX());
+        naoNulo = this.getA() != -1 && this.getB() != -1;
+        if(naoNulo && (this.getA()<= x && x < this.getB())) {
+            return (x - this.getA()) / (this.getB() - this.getA());
         }
         
-        naoNulo = this.getB() != null && this.getC() != null;
-        if(naoNulo && (this.getB().getX() <= x && x < this.getC().getX())) {
-            return (this.getC().getX() - x) / (this.getC().getX() - this.getB().getX());
+        naoNulo = this.getB() != -1 && this.getC() != -1;
+        if(naoNulo && (this.getB()<= x && x < this.getC())) {
+            return (this.getC() - x) / (this.getC() - this.getB());
         }
         
-        naoNulo = this.getC() != null;
-        if(naoNulo && (this.getC().getX() <= x)) {
+        naoNulo = this.getC() != -1;
+        if(naoNulo && (this.getC() <= x)) {
             return 0;
         }
         

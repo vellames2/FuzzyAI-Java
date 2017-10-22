@@ -1,6 +1,8 @@
 package fuzzyai;
 
+import fuzzyai.utils.VariavelFuzzyficada;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Scanner;
 
 public class FuzzyAI {
@@ -10,7 +12,7 @@ public class FuzzyAI {
         Scanner scanner = new Scanner(System.in);
         
         try {
-            ModeloFuzzy modeloFuzzy = new ModeloFuzzy("Modelo Fuzzy");
+            ModeloFuzzy modeloFuzzy = new ModeloFuzzy();
             modeloFuzzy.carregar("/home/vellames/Documents/Projects/fuzzy-ai/fuzzy-model.json");
             
             ArrayList<String> ordemEntrada = modeloFuzzy.getOrdemEntrada();
@@ -19,8 +21,14 @@ public class FuzzyAI {
                 valoresEntrada.add(scanner.nextDouble());
             }
             
-            
-            modeloFuzzy.fuzzyficar(valoresEntrada);  
+            ArrayList<VariavelFuzzyficada> variaveisFuzzyficadas = modeloFuzzy.fuzzyficar(valoresEntrada);
+            for(VariavelFuzzyficada variavelFuzzyficada : variaveisFuzzyficadas) {
+                System.out.println(variavelFuzzyficada.getVariavelFuzzy().getNome());
+                Object[] keys = variavelFuzzyficada.getResultado().keySet().toArray();
+                for(int i = 0; i < variavelFuzzyficada.getResultado().size(); i++) {
+                    System.out.println(keys[i] + " - " + variavelFuzzyficada.getResultado().get(keys[i].toString()));
+                }
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }  
