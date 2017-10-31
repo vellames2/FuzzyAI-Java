@@ -5,13 +5,10 @@ import org.json.*;
 import fuzzyai.abstracoes.AFuncaoPertinencia;
 import fuzzyai.implementacoes.funcoespertinencia.Trapezio;
 import fuzzyai.implementacoes.funcoespertinencia.Triangulo;
-import fuzzyai.utils.Coordenada;
-import fuzzyai.utils.VariavelFuzzyficada;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public final class ModeloFuzzy {
     
@@ -99,52 +96,6 @@ public final class ModeloFuzzy {
         
         // Carrega as variaveis fuzzy
         this.carregarVariaveis(jsonObject);
-    }
-    
-    /**
-     * Realiza a etapa de fuzzyficação de todas as variaveis
-     * @param valoresEntrada Valores recebidos na entrada
-     */
-    public ArrayList<VariavelFuzzyficada> fuzzyficar(ArrayList<Double> valoresEntrada) {
-        ArrayList<VariavelFuzzyficada> variaveisFuzzyficadas = new ArrayList<>();
-        /*
-            A ordem de entrada nem sempre será igual a ordem que as variaveis fuzzy estão inseridas 
-            no arraylist this.variaveisFuzzy. Por isso é necessário verificar a ordem de entrada e encontrar
-            o indice da variavel fuzzy equivalente no arraylist
-        */
-        for(int i = 0; i < valoresEntrada.size(); i++) {
-            // Nome da variavel de entrada
-            String nomeValorEntrada = this.ordemEntrada.get(i);
-            
-            // Valor de Entrada
-            double valorEntrada = valoresEntrada.get(i);
-            
-            // Verifica o indice da variavel fuzzy a ser fuzzyficada a partir do nome de entrada
-            for(int j = 0; j < this.variaveisFuzzy.size(); j++) {
-                VariavelFuzzy variavelFuzzy = this.variaveisFuzzy.get(j);
-                if(variavelFuzzy.getNome().equals(nomeValorEntrada)) {
-                    variaveisFuzzyficadas.add(variavelFuzzy.fuzzyficar(valorEntrada));
-                }
-            }  
-        }
-        
-        return variaveisFuzzyficadas;
-    }
-    
-    public ArrayList<Coordenada> inferir(ArrayList<VariavelFuzzyficada> variaveisFuzzyficadas) {
-        return this.realizarInferencia2(this.realizarInferencia1(variaveisFuzzyficadas));
-    }
-    
-    public HashMap<String,Double> defuzzyficar(ArrayList<Coordenada> coordenadas) {
-        return null;
-    }
-    
-    private HashMap<String, Double> realizarInferencia1(ArrayList<VariavelFuzzyficada> variaveisFuzzyficadas) {
-        return null;
-    }
-    
-    private ArrayList<Coordenada> realizarInferencia2(HashMap<String, Double> valoresInferencia1) {
-        return null;
     }
     
     /**

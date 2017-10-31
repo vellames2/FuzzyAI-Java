@@ -1,5 +1,7 @@
 package fuzzyai;
 
+import fuzzyai.abstracoes.AFuzzyficacao;
+import fuzzyai.fuzzyficacao.FuzzyficacaoPadrao;
 import fuzzyai.utils.Coordenada;
 import fuzzyai.utils.VariavelFuzzyficada;
 import java.awt.BorderLayout;
@@ -100,7 +102,9 @@ public final class FuzzyAI {
                 valoresEntrada.add(scanner.nextDouble());
             }
             
-            ArrayList<VariavelFuzzyficada> variaveisFuzzyficadas = modeloFuzzy.fuzzyficar(valoresEntrada);
+            // Inferencia
+            AFuzzyficacao fuzzyficacao = new FuzzyficacaoPadrao(modeloFuzzy);
+            ArrayList<VariavelFuzzyficada> variaveisFuzzyficadas = fuzzyficacao.fuzzyficar(valoresEntrada);
             for(VariavelFuzzyficada variavelFuzzyficada : variaveisFuzzyficadas) {
                 System.out.println(variavelFuzzyficada.getVariavelFuzzy().getNome());
                 Object[] keys = variavelFuzzyficada.getResultado().keySet().toArray();
@@ -108,12 +112,10 @@ public final class FuzzyAI {
                     System.out.println(keys[i] + " - " + variavelFuzzyficada.getResultado().get(keys[i].toString()));
                 }
             }
-            
-            ArrayList<Coordenada> imagemInferencia = modeloFuzzy.inferir(variaveisFuzzyficadas);
-            HashMap<String, Double> defuzzyficacao = modeloFuzzy.defuzzyficar(imagemInferencia);
+           
         } catch (Exception e) {
             e.printStackTrace();
-        } */ 
+        }*/
     }
     
     public static JFrame criarTelaPrincipal() {
