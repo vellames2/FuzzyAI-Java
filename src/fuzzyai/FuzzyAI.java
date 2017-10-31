@@ -9,7 +9,10 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.GridLayout;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -45,7 +48,13 @@ public final class FuzzyAI {
         JPanel painelAjuda = FuzzyAI.painelAjuda();
         
         // Painel com botões
-        JPanel painelBotoes = new JPanel();
+        GridBagConstraints constraints = new GridBagConstraints();
+        constraints.ipadx = 30;
+        constraints.ipady = 10;
+        constraints.insets = new Insets(5, 10, 5, 0);
+        constraints.anchor = GridBagConstraints.NORTHWEST;
+        
+        JPanel painelBotoes = new JPanel(new GridBagLayout());
         JButton btnImportarJSON = new JButton("Importar JSON");
         btnImportarJSON.addActionListener(new ActionListener() {
             @Override
@@ -77,8 +86,18 @@ public final class FuzzyAI {
                 painelPrincipal.repaint();
             }
         });
-        painelBotoes.add(btnImportarJSON);
-        painelBotoes.add(btnAjuda);
+        
+        constraints.gridx = 0;
+        constraints.gridy = 0;
+        constraints.weightx = 0;
+        constraints.weighty = 0;
+        painelBotoes.add(btnImportarJSON, constraints);
+        
+        constraints.gridx = 0;
+        constraints.gridy = 1;
+        constraints.weightx = 1;
+        constraints.weighty = 1;
+        painelBotoes.add(btnAjuda, constraints);
         
         // Adiciona paineis ao painel principal
         painelPrincipal.add(painelBotoes, BorderLayout.WEST);
@@ -131,25 +150,28 @@ public final class FuzzyAI {
      * @return Retorna o painel do JSON
      */
     public static JPanel painelImportarJSON() {
-        JPanel importarJSON = new JPanel();
+        GridBagConstraints constraints = new GridBagConstraints();
+        constraints.insets = new Insets(5, 0, 0, 0);
+        constraints.anchor = GridBagConstraints.NORTH;
+        JPanel importarJSON = new JPanel(new GridBagLayout());
         
         // Texto
         JLabel textoImportacao = new JLabel("Importar JSON");
         
         // Input para adicionar o caminho do JSON
         JTextField inputCaminhoJSON = new JTextField(40);
+        inputCaminhoJSON.setText("/home/vellames/Documents/Projects/fuzzy-ai/fuzzy-model.json");
         inputCaminhoJSON.setEditable(false);
         
         // Botão de importação
         JButton btnImportar = new JButton("Importar");
-        btnImportar.setEnabled(false);
+        //btnImportar.setEnabled(false);
         btnImportar.addActionListener(new ActionListener() {
             // Carrega os campos de input baseados no JSON
             @Override
             public void actionPerformed(ActionEvent e) {
                 String caminhoJSON = inputCaminhoJSON.getText();
-                // Verifica se o caminho é valido
-                
+                FuzzyAI.abrirTelaFuzzy(caminhoJSON);
             }
         });
          
@@ -185,10 +207,26 @@ public final class FuzzyAI {
         });
         
         // Adiciona elementos ao painel
-        importarJSON.add(textoImportacao);
-        importarJSON.add(inputCaminhoJSON);
-        importarJSON.add(btnProcurar);
-        importarJSON.add(btnImportar);
+        constraints.gridx = 0;
+        constraints.gridy = 0;
+        constraints.weighty = 0;
+        importarJSON.add(textoImportacao, constraints);
+        
+        constraints.gridx = 0;
+        constraints.gridy = 1;
+        constraints.weighty = 1;
+        importarJSON.add(inputCaminhoJSON, constraints);
+        
+        constraints.gridx = 1;
+        constraints.gridy = 1;
+        constraints.weighty = 1;
+        constraints.insets = new Insets(0, 5, 0, 0);
+        importarJSON.add(btnProcurar, constraints);
+        
+        constraints.gridx = 0;
+        constraints.gridy = 2;
+        constraints.weighty = 45;
+        importarJSON.add(btnImportar, constraints);
         
         return importarJSON;
     }
@@ -201,5 +239,17 @@ public final class FuzzyAI {
         painelAjuda.add(label);
         
         return painelAjuda;
+    }
+    
+    public static void abrirTelaFuzzy(String caminho) {
+        // Verifica se o caminho é valido
+        JFrame telaFuzzy = new JFrame("Inserir Valores");
+        telaFuzzy.setSize(largura, altura);        
+        telaFuzzy.setResizable(false);
+        
+        JPanel painelFuzzy = new JPanel();
+        
+        telaFuzzy.add(painelFuzzy);
+        telaFuzzy.setVisible(true);
     }
 }
