@@ -4,6 +4,7 @@ import fuzzyai.ModeloFuzzy;
 import fuzzyai.VariavelFuzzy;
 import fuzzyai.utils.VariavelFuzzyficada;
 import java.util.ArrayList;
+import java.util.List;
 
 public abstract class AFuzzyficacao {
     
@@ -21,6 +22,6 @@ public abstract class AFuzzyficacao {
         this.modeloFuzzy = modeloFuzzy;
     }
     
-    public abstract ArrayList<VariavelFuzzyficada> fuzzyficar(ArrayList<Double> valoresEntrada);
+    public abstract List<VariavelFuzzyficada> fuzzyficar(List<Double> valoresEntrada);
     protected abstract VariavelFuzzyficada fuzzyficarVariavel(VariavelFuzzy variavelFuzzy, double valorEntrada);
 }

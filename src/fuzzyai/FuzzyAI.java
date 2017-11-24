@@ -26,6 +26,8 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.filechooser.FileSystemView;
 import java.io.File;
+import java.text.ParseException;
+import java.util.List;
 import javax.swing.BoxLayout;
 import javax.swing.JOptionPane;
 
@@ -241,15 +243,106 @@ public final class FuzzyAI {
         return painelAjuda;
     }
     
-    public static void abrirTelaFuzzy(String caminho) {
-        // Verifica se o caminho é valido
+    public static void abrirTelaFuzzy(String caminho){
+        // Variaveis de controle
+        JPanel painelFuzzy = new JPanel();
+        painelFuzzy.setLayout(new FlowLayout(FlowLayout.CENTER, 30, 15));
+        ModeloFuzzy modeloFuzzy = new ModeloFuzzy();
+        List<JTextField> campos = new ArrayList<>();
+        
+        // Carrega os campos
+        try {
+            modeloFuzzy.carregar(caminho);
+        } catch (Exception e) {
+            
+        }
+        
+        // Adiciona o label e os campos no panel
+        for(String campo : modeloFuzzy.getOrdemEntrada()) {
+            JLabel jlabel = new JLabel(campo);
+            JTextField textField = new JTextField(17);
+            campos.add(textField);
+            painelFuzzy.add(jlabel);
+            painelFuzzy.add(textField);
+        }
+        
+        // Cria JFrame
         JFrame telaFuzzy = new JFrame("Inserir Valores");
         telaFuzzy.setSize(largura, altura);        
         telaFuzzy.setResizable(false);
         
-        JPanel painelFuzzy = new JPanel();
+        // Cria Painel com os botões
+        JPanel painelAcoes = new JPanel();
+        JButton enviar = new JButton("Enviar");
+        enviar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                boolean possuiErros = false;
+                List<Double> valoresEntrada = new ArrayList<>();
+                
+                // Validação dos campos e inserção no array de valores de entrada;
+                for(int i = 0; i < campos.size(); i++) {
+                    // Verifica se os campos estão preenchidos
+                    JTextField campo = campos.get(i);
+                    if(campo.getText().isEmpty()) {
+                        String msg = "Preencha o campo " + modeloFuzzy.getOrdemEntrada().get(i);
+                        JOptionPane.showMessageDialog(null, msg, "Erro", JOptionPane.ERROR_MESSAGE);
+                        possuiErros = true;
+                        break;
+                    }
+                    
+                    // Verifica se os campos são double
+                    try {
+                        valoresEntrada.add(Double.parseDouble(campo.getText()));
+                    } catch (NumberFormatException ex) {
+                        String msg = "O campo " + modeloFuzzy.getOrdemEntrada().get(i) + " deve ser numérico.";
+                        JOptionPane.showMessageDialog(null, msg, "Erro", JOptionPane.ERROR_MESSAGE);
+                        possuiErros = true;
+                        break;
+                    }
+                }
+                
+                if(possuiErros) {
+                    return;
+                }
+                
+                // Fuzzyficação
+                try {
+                    AFuzzyficacao fuzzyficacao = new FuzzyficacaoPadrao(modeloFuzzy);
+                    List<VariavelFuzzyficada> variaveisFuzzyficadas = fuzzyficacao.fuzzyficar(valoresEntrada);
+                    String txt = "";
+                    for(VariavelFuzzyficada variavelFuzzyficada : variaveisFuzzyficadas) {
+                        txt += ("\n" + variavelFuzzyficada.getVariavelFuzzy().getNome() + "\n");
+                        Object[] keys = variavelFuzzyficada.getResultado().keySet().toArray();
+                        for(int x = 0; x < variavelFuzzyficada.getResultado().size(); x++) {
+                            txt += (keys[x] + " - " + variavelFuzzyficada.getResultado().get(keys[x].toString()) + "\n");
+                        }
+                    }
+                    JOptionPane.showMessageDialog(null, txt, "Fuzzyficação", JOptionPane.INFORMATION_MESSAGE);
+                } catch (IllegalArgumentException ex) {
+                    JOptionPane.showMessageDialog(null, ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        });
         
-        telaFuzzy.add(painelFuzzy);
+        JButton cancelar = new JButton("Cancelar");
+        cancelar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                telaFuzzy.dispose();
+            }
+        });
+        painelAcoes.add(enviar);
+        painelAcoes.add(cancelar);
+        
+        // Cria painel que agrupa todos os layouts
+        JPanel painelInserirValores = new JPanel(new BorderLayout());
+        painelInserirValores.add(painelFuzzy, BorderLayout.CENTER);
+        painelInserirValores.add(painelAcoes, BorderLayout.SOUTH);
+        
+        telaFuzzy.add(painelInserirValores);
+        
+        // Exibe JFrame
         telaFuzzy.setVisible(true);
     }
 }

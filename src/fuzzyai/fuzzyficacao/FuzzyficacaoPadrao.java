@@ -7,6 +7,7 @@ import fuzzyai.abstracoes.AFuzzyficacao;
 import fuzzyai.utils.VariavelFuzzyficada;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public final class FuzzyficacaoPadrao extends AFuzzyficacao {
 
@@ -21,8 +22,8 @@ public final class FuzzyficacaoPadrao extends AFuzzyficacao {
      * @return Retorna um array list de variaveis fuzzyficadas
      */
     @Override
-    public ArrayList<VariavelFuzzyficada> fuzzyficar(ArrayList<Double> valoresEntrada) {
-        ArrayList<VariavelFuzzyficada> variaveisFuzzyficadas = new ArrayList<>();
+    public List<VariavelFuzzyficada> fuzzyficar(List<Double> valoresEntrada) {
+        List<VariavelFuzzyficada> variaveisFuzzyficadas = new ArrayList<>();
         /*
             A ordem de entrada nem sempre será igual a ordem que as variaveis fuzzy estão inseridas 
             no arraylist this.variaveisFuzzy. Por isso é necessário verificar a ordem de entrada e encontrar
