@@ -4,7 +4,7 @@ import fuzzyai.ModeloFuzzy;
 import fuzzyai.VariavelFuzzy;
 import fuzzyai.abstracoes.AFuncaoPertinencia;
 import fuzzyai.abstracoes.AFuzzyficacao;
-import fuzzyai.utils.VariavelFuzzyficada;
+import fuzzyai.inferencia.VariavelFuzzyficada;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;

@@ -2,8 +2,7 @@ package fuzzyai;
 
 import fuzzyai.abstracoes.AFuzzyficacao;
 import fuzzyai.fuzzyficacao.FuzzyficacaoPadrao;
-import fuzzyai.utils.Coordenada;
-import fuzzyai.utils.VariavelFuzzyficada;
+import fuzzyai.inferencia.VariavelFuzzyficada;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
@@ -108,35 +107,6 @@ public final class FuzzyAI {
         // Adiciona painel prinicpal ao JFrame
         telaPrincipal.add(painelPrincipal);
         telaPrincipal.setVisible(true);
-        
-        
-        /*ArrayList<Double> valoresEntrada = new ArrayList<>();
-        Scanner scanner = new Scanner(System.in);
-        
-        try {
-            ModeloFuzzy modeloFuzzy = new ModeloFuzzy();
-            modeloFuzzy.carregar("/home/vellames/Documents/Projects/fuzzy-ai/fuzzy-model.json");
-            
-            ArrayList<String> ordemEntrada = modeloFuzzy.getOrdemEntrada();
-            for(String nomeEntrada : ordemEntrada) {
-                System.out.println("Digite o valor de entrada da variavel " + nomeEntrada + ": ");
-                valoresEntrada.add(scanner.nextDouble());
-            }
-            
-            // Inferencia
-            AFuzzyficacao fuzzyficacao = new FuzzyficacaoPadrao(modeloFuzzy);
-            ArrayList<VariavelFuzzyficada> variaveisFuzzyficadas = fuzzyficacao.fuzzyficar(valoresEntrada);
-            for(VariavelFuzzyficada variavelFuzzyficada : variaveisFuzzyficadas) {
-                System.out.println(variavelFuzzyficada.getVariavelFuzzy().getNome());
-                Object[] keys = variavelFuzzyficada.getResultado().keySet().toArray();
-                for(int i = 0; i < variavelFuzzyficada.getResultado().size(); i++) {
-                    System.out.println(keys[i] + " - " + variavelFuzzyficada.getResultado().get(keys[i].toString()));
-                }
-            }
-           
-        } catch (Exception e) {
-            e.printStackTrace();
-        }*/
     }
     
     public static JFrame criarTelaPrincipal() {
@@ -162,7 +132,7 @@ public final class FuzzyAI {
         
         // Input para adicionar o caminho do JSON
         JTextField inputCaminhoJSON = new JTextField(40);
-        inputCaminhoJSON.setText("/home/vellames/Documents/Projects/fuzzy-ai/fuzzy-model.json");
+        inputCaminhoJSON.setText("/home/vellames/Documents/Faculdade/Inteligencia Artificial/FuzzyAI/FuzzyAI/config.min.json");
         inputCaminhoJSON.setEditable(false);
         
         // Botão de importação

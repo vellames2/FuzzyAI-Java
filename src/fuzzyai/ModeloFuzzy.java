@@ -3,13 +3,21 @@ package fuzzyai;
 import org.json.*;
 
 import fuzzyai.abstracoes.AFuncaoPertinencia;
+import fuzzyai.configuracoes.CalculoConector;
+import fuzzyai.configuracoes.Configuracoes;
 import fuzzyai.implementacoes.funcoespertinencia.Trapezio;
 import fuzzyai.implementacoes.funcoespertinencia.Triangulo;
+import fuzzyai.inferencia.Regra;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
+/**
+ * Contem todas as informações referentes ao modelo fuzzy em questão
+ * @author Cassiano Vellames <c.vellames@outlook.com>
+ */
 public final class ModeloFuzzy {
     
     /**
@@ -33,7 +41,16 @@ public final class ModeloFuzzy {
      */
     private ArrayList<String> ordemEntrada;
     
+    /**
+     * Configurações que serão usadas durante a inferencia e deffuzyficaçao
+     */
+    private Configuracoes configuracoes;
     
+    /**
+     * Lista com todas as regras que devem ser usadas na inferencia
+     */
+    private List<Regra> regras;
+            
     /**
      * Construtor do modelo fuzzy
      */
@@ -41,11 +58,19 @@ public final class ModeloFuzzy {
         this.variaveisFuzzy = new ArrayList<>();
         this.ordemEntrada = new ArrayList<>();
     }
-
+    
+    /**
+     * Recupera o nome do modelo
+     * @return Retorna o nome do modelo
+     */
     public String getNome() {
         return nome;
     }
-
+    
+    /**
+     * Seta o nome do modelo
+     * @param nome Nome do modelo fuzzy
+     */
     public void setNome(String nome) {
         if(nome.trim().length() == 0) {
             throw new IllegalArgumentException("O nome do Modelo Fuzzy não pode ser vazio");
@@ -53,10 +78,18 @@ public final class ModeloFuzzy {
         this.nome = nome;
     }
     
+    /**
+     * Recupera o tipo do modelo
+     * @return Retorna o tipo do modelo
+     */
     public String getTipoModelo() {
         return this.tipoModelo;
     }
 
+    /**
+     * Seta o tipo do modelo
+     * @param nome Nome do modelo
+     */
     public void setTipoModelo(String nome) {
         if(nome.trim().length() == 0) {
             throw new IllegalArgumentException("O nome do Tipo de Modelo Fuzzy não pode ser vazio");
@@ -67,18 +100,63 @@ public final class ModeloFuzzy {
         }
         this.nome = nome;
     }
-
+    
+    /**
+     * Recupera as variavies fuzzy carregadas no modelo
+     * @return Retorna as variaveis fuzzy carregadas no modelo
+     */
     public ArrayList<VariavelFuzzy> getVariaveisFuzzy() {
         return variaveisFuzzy;
     }
-
+    
+    /**
+     * Seta as variaveis fuzzy do modelo
+     * @param variaveisFuzzy Lista de todas as variaveis fuzzy
+     */
     public void setVariaveisFuzzy(ArrayList<VariavelFuzzy> variaveisFuzzy) {
         this.variaveisFuzzy = variaveisFuzzy;
     }
     
+    /**
+     * Recupera a ordem de entrada das variaveis
+     * @return Retorna a ordem de entrada das variaveis
+     */
     public ArrayList<String> getOrdemEntrada() {
         return this.ordemEntrada;
     }
+    
+    /**
+     * Recupera as configurações do modelo
+     * @return Retorna as configurações do modelo
+     */
+    public Configuracoes getConfiguracoes() {
+        return configuracoes;
+    }
+    
+    /**
+     * Seta as configurações do modelo
+     * @param configuracoes Objeto com as configurações do modelo
+     */
+    public void setConfiguracoes(Configuracoes configuracoes) {
+        this.configuracoes = configuracoes;
+    }
+    
+    /**
+     * Recupera todas as regras da inferencia
+     * @return Retorna todas as regras da inferencia
+     */
+    public List<Regra> getRegras() {
+        return regras;
+    }
+    
+    /**
+     * Seta todas as regras da inferenca
+     * @param regras Lista com todas as regras da inferencia
+     */
+    public void setRegras(List<Regra> regras) {
+        this.regras = regras;
+    }
+    
     
     ///////////////////////////////////////////////////////////////////////////////////////////////////
     
@@ -90,6 +168,12 @@ public final class ModeloFuzzy {
     public void carregar(String caminho) throws Exception {
         // Recupera o JSON escrito no arquivo
         JSONObject jsonObject = this.transformarArquivoEmJSON(caminho);
+        
+        // Carrega as informações básicas do modelo
+        this.carregarInformacoesBasicas(jsonObject);
+        
+        // Carrega as configuraçõs do modelo
+        this.carregarConfiguracoes(jsonObject);
         
         // Carrega a ordem de inserção dos campos
         this.carregarOrdemEntrada(jsonObject);
@@ -261,4 +345,53 @@ public final class ModeloFuzzy {
         }
     }
     
+    /**
+     * Carrega as informações básicas do modelo (Nome e Tipo)
+     * @param jsonObject Objeto JSON com o modelo fuzzy já carregado
+     * @throws Exception QUalquer excessão será enviada para o chamador da função
+     */
+    private void carregarInformacoesBasicas(JSONObject jsonObject) throws Exception {
+        this.setNome(jsonObject.getString("nameOfResult"));
+        this.setTipoModelo(jsonObject.getString("modelType"));
+    }
+    
+    /**
+     * Carrega as configurações do modelo fuzzy (modo de calculo e deffuzificação)
+     * @param jsonObject Objeto JSON com o modelo fuzzy já carregado
+     * @throws Exception QUalquer excessão será enviada para o chamador da função
+     */
+    private void carregarConfiguracoes(JSONObject jsonObject) throws Exception {
+        JSONObject configuracoes = jsonObject.getJSONObject("configurations");
+        
+        String modoDeffuzyficacao = configuracoes.getString("deffuzyfication");
+        List<CalculoConector> calculoConectores = new ArrayList<>();
+   
+        JSONArray calculoConectoresJSON = configuracoes.getJSONArray("calcMode");
+        for(int i = 0; i < calculoConectoresJSON.length(); i++) {
+            JSONObject calculoConectorJSON = calculoConectoresJSON.getJSONObject(i);
+            String conector = calculoConectorJSON.getString("type");
+            String modo = calculoConectorJSON.getString("mode");
+            calculoConectores.add(new CalculoConector(conector, modo));
+        }
+        
+        this.setConfiguracoes(new Configuracoes(modoDeffuzyficacao, calculoConectores));
+    }
+    
+    /**
+     * Carrega todas as regras que serão usadas na inferencia
+     * @param jsonObject Objeto JSON com o modelo fuzzy já carregado
+     * @throws Exception QUalquer excessão será enviada para o chamador da função
+     */
+    private void carregarRegras(JSONObject jsonObject) throws Exception {
+        JSONArray regras = jsonObject.getJSONArray("rules");
+        for(int i = 0; i < regras.length(); i++) {
+            JSONObject regra = regras.getJSONObject(i);
+            
+            JSONArray variaveisJSON = regra.getJSONArray("variables");
+            List<String> variaveis = new ArrayList<>();
+            for(int x = 0; x < variaveis.size(); x++) {
+                variaveis.add(variaveisJSON.getString(x));
+            }
+        }
+    }
 }

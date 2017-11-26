@@ -1,4 +1,4 @@
-package fuzzyai.utils;
+package fuzzyai.inferencia;
 
 import fuzzyai.VariavelFuzzy;
 import java.util.HashMap;

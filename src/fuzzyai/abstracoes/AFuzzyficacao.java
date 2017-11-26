@@ -2,8 +2,7 @@ package fuzzyai.abstracoes;
 
 import fuzzyai.ModeloFuzzy;
 import fuzzyai.VariavelFuzzy;
-import fuzzyai.utils.VariavelFuzzyficada;
-import java.util.ArrayList;
+import fuzzyai.inferencia.VariavelFuzzyficada;
 import java.util.List;
 
 public abstract class AFuzzyficacao {
