@@ -89,42 +89,40 @@
         ]
       }
     ],
-    "output": [
-      {
+    "output": {
         "name": "Risco",
         "values": [
-          {
+            {
             "type": "trapezio",
             "name": "Baixo",
             "values": [
-              -1,
-              0,
-              50,
-              70
+                -1,
+                0,
+                50,
+                70
             ]
-          },
-          {
+            },
+            {
             "type": "triangle",
             "name": "Médio",
             "values": [
-              50,
-              70,
-              90
+                50,
+                70,
+                90
             ]
-          },
-          {
+            },
+            {
             "type": "trapezio",
             "name": "Alto",
             "values": [
-              70,
-              90,
-              -1,
-              -1
+                70,
+                90,
+                -1,
+                -1
             ]
-          }
+            }
         ]
-      }
-    ]
+    }
   },
   "rules": [
     {

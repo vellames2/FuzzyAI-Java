@@ -16,7 +16,6 @@ import java.util.List;
 
 /**
  * Contem todas as informações referentes ao modelo fuzzy em questão
- * @author Cassiano Vellames <c.vellames@outlook.com>
  */
 public final class ModeloFuzzy {
     
@@ -41,6 +40,9 @@ public final class ModeloFuzzy {
      */
     private ArrayList<String> ordemEntrada;
     
+    /**
+     * Variavel usada na inferencia
+     */
     private VariavelFuzzy variavelInferencia;
     
     /**
