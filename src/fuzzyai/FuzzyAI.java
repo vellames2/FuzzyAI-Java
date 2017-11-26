@@ -294,7 +294,7 @@ public final class FuzzyAI {
                     
                     IInferencia inferencia = new InferenciaPadrao();
                     inferencia.inferir(variaveisFuzzyficadas, modeloFuzzy);
-                } catch (IllegalArgumentException ex) {
+                } catch (Exception ex) {
                     JOptionPane.showMessageDialog(null, ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
                 }
             }

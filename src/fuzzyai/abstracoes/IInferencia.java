@@ -5,5 +5,5 @@ import fuzzyai.inferencia.VariavelFuzzyficada;
 import java.util.List;
 
 public interface IInferencia {
-    public void inferir(List<VariavelFuzzyficada> varaiveisFuzzyficadas, ModeloFuzzy modeloFuzzy);
+        public void inferir(List<VariavelFuzzyficada> varaiveisFuzzyficadas, ModeloFuzzy modeloFuzzy) throws Exception;
 }

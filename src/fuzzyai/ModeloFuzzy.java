@@ -108,7 +108,7 @@ public final class ModeloFuzzy {
      * @return Retorna as variaveis fuzzy carregadas no modelo
      */
     public ArrayList<VariavelFuzzy> getVariaveisFuzzy() {
-        return variaveisFuzzy;
+        return this.variaveisFuzzy;
     }
     
     /**
@@ -132,7 +132,7 @@ public final class ModeloFuzzy {
      * @return Retorna as configurações do modelo
      */
     public Configuracoes getConfiguracoes() {
-        return configuracoes;
+        return this.configuracoes;
     }
     
     /**
@@ -148,7 +148,7 @@ public final class ModeloFuzzy {
      * @return Retorna todas as regras da inferencia
      */
     public List<Regra> getRegras() {
-        return regras;
+        return this.regras;
     }
     
     /**
@@ -200,6 +200,8 @@ public final class ModeloFuzzy {
         
         // Carrega a variavel da inferencia
         this.carregarVariavelInferencia(jsonObject);
+        
+        this.carregarRegras(jsonObject);
     }
     
     /**
@@ -403,16 +405,45 @@ public final class ModeloFuzzy {
      * @throws Exception QUalquer excessão será enviada para o chamador da função
      */
     private void carregarRegras(JSONObject jsonObject) throws Exception {
-        JSONArray regras = jsonObject.getJSONArray("rules");
-        for(int i = 0; i < regras.length(); i++) {
-            JSONObject regra = regras.getJSONObject(i);
+        JSONArray regrasJSON = jsonObject.getJSONArray("rules");
+        List<Regra> regras = new ArrayList<>();
+        for(int i = 0; i < regrasJSON.length(); i++) {
+            JSONObject regraJSON = regrasJSON.getJSONObject(i);
+            Regra regra = new Regra();
             
-            JSONArray variaveisJSON = regra.getJSONArray("variables");
+            // Adicionando as regras do modelo
+            JSONArray variaveisJSON = regraJSON.getJSONArray("variables");
             List<String> variaveis = new ArrayList<>();
-            for(int x = 0; x < variaveis.size(); x++) {
+            for(int x = 0; x < variaveisJSON.length(); x++) {
                 variaveis.add(variaveisJSON.getString(x));
             }
+            regra.setVariaveis(variaveis);
+            
+            // Adicionando os resultados das variaveis no modelo
+            JSONArray resultadosJSON = regraJSON.getJSONArray("results");
+            List<String> resultados = new ArrayList<>();
+            for(int x = 0; x < resultadosJSON.length(); x++) {
+                resultados.add(resultadosJSON.getString(x));
+            }
+            regra.setResultados(resultados);
+            
+            // Adicionando conectores
+            JSONArray conectoresJSON = regraJSON.getJSONArray("connector");
+            List<String> conectores = new ArrayList<>();
+            for(int x = 0; x < conectoresJSON.length(); x++) {
+                conectores.add(conectoresJSON.getString(x));
+            }
+            regra.setConectores(conectores);
+            
+            // Adicionando consequente
+            String consequente = regraJSON.getString("consequent");
+            regra.setConsequente(consequente);
+            
+            // Adicionando a lista
+            regras.add(regra);
         }
+        
+        this.setRegras(regras);
     }
     
     /**

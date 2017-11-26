@@ -41,6 +41,8 @@ public final class Regra {
         this.setConsequente(consequente);
     }
     
+    public Regra(){};
+    
     /**
      * Recupera a lista de varaiveis da regra
      * @return Retorna a lista de variaveis da regra

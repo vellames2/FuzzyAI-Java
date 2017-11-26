@@ -9,11 +9,11 @@
     "calcMode": [
       {
         "type": "and",
-        "mode": "min"
+        "mode": "Min"
       },
       {
         "type": "or",
-        "mode": "max"
+        "mode": "Max"
       }
     ],
     "deffuzyfication": "centroid"

@@ -65,9 +65,9 @@ public final class FuzzyficacaoPadrao extends AFuzzyficacao {
             
             // Verifica se valor toca na atual iteração da função de pertinencia
             if((primeiroPonto != -1 && valorEntrada >= primeiroPonto) || (ultimoPonto != -1 && valorEntrada <= ultimoPonto)) {
-                resultado.put(funcaoPertinencia.getNome(), funcaoPertinencia.getValorPertinencia(valorEntrada));
+                resultado.put(funcaoPertinencia.getNome().toLowerCase(), funcaoPertinencia.getValorPertinencia(valorEntrada));
             } else {
-                resultado.put(funcaoPertinencia.getNome(), 0d);
+                resultado.put(funcaoPertinencia.getNome().toLowerCase(), 0d);
             }
         }
         
