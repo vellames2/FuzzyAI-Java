@@ -41,6 +41,8 @@ public final class ModeloFuzzy {
      */
     private ArrayList<String> ordemEntrada;
     
+    private VariavelFuzzy variavelInferencia;
+    
     /**
      * Configurações que serão usadas durante a inferencia e deffuzyficaçao
      */
@@ -156,7 +158,22 @@ public final class ModeloFuzzy {
     public void setRegras(List<Regra> regras) {
         this.regras = regras;
     }
+
+    /**
+     * Recupera a varaivel usada na inferencia
+     * @return Retorna a variavel usada na inferencia
+     */
+    public VariavelFuzzy getVariavelInferencia() {
+        return variavelInferencia;
+    }
     
+    /**
+     * Seta a variavel usada na inferencia
+     * @param variavelInferencia Variavel usada na inferencia
+     */
+    public void setVariavelInferencia(VariavelFuzzy variavelInferencia) {
+        this.variavelInferencia = variavelInferencia;
+    }
     
     ///////////////////////////////////////////////////////////////////////////////////////////////////
     
@@ -180,6 +197,9 @@ public final class ModeloFuzzy {
         
         // Carrega as variaveis fuzzy
         this.carregarVariaveis(jsonObject);
+        
+        // Carrega a variavel da inferencia
+        this.carregarVariavelInferencia(jsonObject);
     }
     
     /**
@@ -393,5 +413,36 @@ public final class ModeloFuzzy {
                 variaveis.add(variaveisJSON.getString(x));
             }
         }
+    }
+    
+    /**
+     * Carrega a variavel usada na inferencia
+     * @param jsonObject Objeto JSON com o modelo fuzzy já carregado
+     * @throws Exception QUalquer excessão será enviada para o chamador da função
+     */
+    private void carregarVariavelInferencia(JSONObject jsonObject) throws Exception {
+        ArrayList<AFuncaoPertinencia> funcoesPertinencia = new ArrayList<>();
+        Trapezio baixo = new Trapezio("Baixo");
+        baixo.setA(-1);
+        baixo.setB(0);
+        baixo.setC(50);
+        baixo.setD(70);
+        
+        Triangulo medio = new Triangulo("Médio");
+        medio.setA(50);
+        medio.setB(70);
+        medio.setC(90);
+        
+        Trapezio alto = new Trapezio("Alto");
+        alto.setA(70);
+        alto.setB(90);
+        alto.setC(-1);
+        alto.setD(-1);
+        
+        funcoesPertinencia.add(baixo);
+        funcoesPertinencia.add(medio);
+        funcoesPertinencia.add(alto);
+        
+        this.setVariavelInferencia(new VariavelFuzzy("risco", funcoesPertinencia));
     }
 }

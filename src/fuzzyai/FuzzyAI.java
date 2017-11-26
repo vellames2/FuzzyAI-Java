@@ -1,7 +1,9 @@
 package fuzzyai;
 
 import fuzzyai.abstracoes.AFuzzyficacao;
+import fuzzyai.abstracoes.IInferencia;
 import fuzzyai.fuzzyficacao.FuzzyficacaoPadrao;
+import fuzzyai.inferencia.InferenciaPadrao;
 import fuzzyai.inferencia.VariavelFuzzyficada;
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -288,7 +290,10 @@ public final class FuzzyAI {
                             txt += (keys[x] + " - " + variavelFuzzyficada.getResultado().get(keys[x].toString()) + "\n");
                         }
                     }
-                    JOptionPane.showMessageDialog(null, txt, "Fuzzyficação", JOptionPane.INFORMATION_MESSAGE);
+                    //JOptionPane.showMessageDialog(null, txt, "Fuzzyficação", JOptionPane.INFORMATION_MESSAGE);
+                    
+                    IInferencia inferencia = new InferenciaPadrao();
+                    inferencia.inferir(variaveisFuzzyficadas, modeloFuzzy);
                 } catch (IllegalArgumentException ex) {
                     JOptionPane.showMessageDialog(null, ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
                 }
