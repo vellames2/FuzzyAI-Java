@@ -1,24 +1,19 @@
 package fuzzyai;
 
-import fuzzyai.abstracoes.AFuzzyficacao;
-import fuzzyai.abstracoes.IInferencia;
+import fuzzyai.inferencia.IInferencia;
 import fuzzyai.fuzzyficacao.FuzzyficacaoPadrao;
+import fuzzyai.fuzzyficacao.IFuzzyficacao;
 import fuzzyai.inferencia.InferenciaPadrao;
 import fuzzyai.inferencia.VariavelFuzzyficada;
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Component;
-import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Scanner;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
@@ -27,9 +22,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.filechooser.FileSystemView;
 import java.io.File;
-import java.text.ParseException;
 import java.util.List;
-import javax.swing.BoxLayout;
 import javax.swing.JOptionPane;
 
 public final class FuzzyAI {
@@ -280,8 +273,8 @@ public final class FuzzyAI {
                 
                 // Fuzzyficação
                 try {
-                    AFuzzyficacao fuzzyficacao = new FuzzyficacaoPadrao(modeloFuzzy);
-                    List<VariavelFuzzyficada> variaveisFuzzyficadas = fuzzyficacao.fuzzyficar(valoresEntrada);
+                    IFuzzyficacao fuzzyficacao = new FuzzyficacaoPadrao();
+                    List<VariavelFuzzyficada> variaveisFuzzyficadas = fuzzyficacao.fuzzyficar(valoresEntrada, modeloFuzzy);
                     String txt = "";
                     for(VariavelFuzzyficada variavelFuzzyficada : variaveisFuzzyficadas) {
                         txt += ("\n" + variavelFuzzyficada.getVariavelFuzzy().getNome() + "\n");

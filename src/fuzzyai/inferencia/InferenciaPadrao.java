@@ -1,21 +1,34 @@
 package fuzzyai.inferencia;
 
 import fuzzyai.ModeloFuzzy;
-import fuzzyai.abstracoes.IInferencia;
-import fuzzyai.abstracoes.IModoCalculo;
 import fuzzyai.configuracoes.CalculoConector;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+/**
+ * Classe responsavel pela etapa de inferencia da logica fuzzy
+ */
 public class InferenciaPadrao implements IInferencia{
-
+    /**
+     * Realiza a etapa de inferencia da logica fuzzy
+     * @param varaiveisFuzzyficadas Lista com as variaveis fuzzyficadas
+     * @param modeloFuzzy Modelo fuzzy com todas as informações contidas no JSON de configuração
+     * @throws Exception Toda exceção deve ser tratada pelo chamador da função
+     */
     @Override
     public void inferir(List<VariavelFuzzyficada> varaiveisFuzzyficadas, ModeloFuzzy modeloFuzzy) throws Exception {
         List<ResultadoRegra> resultadoRegras =  this.aplicarRegras(varaiveisFuzzyficadas, modeloFuzzy);
         this.somarImagens(resultadoRegras, modeloFuzzy);
     }
     
+    /**
+     * Realiza a etapa de aplicação das regras da inferencia
+     * @param variaveisFuzzyficadas Lista de variaveis fuzzyficadas
+     * @param modeloFuzzy Modelo fuzzy com todas as informações contidas no JSON de configuração
+     * @return Retorna uma lista com o resultado das regras
+     * @throws Exception Diversas exceções podem ser lançadas durante essa etapa
+     */
     private List<ResultadoRegra> aplicarRegras(List<VariavelFuzzyficada> variaveisFuzzyficadas, ModeloFuzzy modeloFuzzy) throws Exception{
         List<Regra> regrasValidas = this.extrairRegrasValidas(variaveisFuzzyficadas, modeloFuzzy);
         
@@ -76,6 +89,12 @@ public class InferenciaPadrao implements IInferencia{
         return resultadoRegras;
     }
     
+    /**
+     * Função responsavel por eliminar as regras invalidas
+     * @param variaveisFuzzyficadas Lista de variaveis fuzzyficadas
+     * @param modeloFuzzy Modelo fuzzy com todas as informações contidas no JSON de configuração
+     * @return Retorna apenas as regras validas para terem seus valores extraidos
+     */
     private List<Regra> extrairRegrasValidas(List<VariavelFuzzyficada> variaveisFuzzyficadas, ModeloFuzzy modeloFuzzy) {
         List<Regra> regras = modeloFuzzy.getRegras();
         List<Regra> regrasValidas = new ArrayList<>();

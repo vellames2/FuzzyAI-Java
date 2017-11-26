@@ -1,6 +1,6 @@
-package fuzzyai;
+package fuzzyai.variavel;
 
-import fuzzyai.abstracoes.AFuncaoPertinencia;
+import fuzzyai.variavel.AFuncaoPertinencia;
 import java.util.ArrayList;
 
 /**

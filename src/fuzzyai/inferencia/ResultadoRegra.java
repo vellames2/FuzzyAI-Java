@@ -2,46 +2,58 @@ package fuzzyai.inferencia;
 
 /**
  * Classe responsavel por representar o resultado de uma regra da inferencia
- * @author Cassiano Vellames <c.vellames@outlook.com>
  */
 public final class ResultadoRegra {
     /**
-     * Nome do resultado
+     * Nome do consequente
      */
-    private String nomeResultado;
+    private String consequente;
     
     /**
-     * Valor do resultado
+     * Valor do consequente
      */
-    private double valorResultado;
+    private double valor;
     
     /**
      * Construtor da classe
-     * @param nomeResultado Nome do Resultado
-     * @param valorResultado  Valor do Resultado
+     * @param consequente Nome do consequente
+     * @param valor Valor do consequente
      */
-    public ResultadoRegra(String nomeResultado, double valorResultado) {
-        this.nomeResultado = nomeResultado;
-        this.valorResultado = valorResultado;
+    public ResultadoRegra(String consequente, double valor) {
+        this.consequente = consequente;
+        this.valor = valor;
     }
     
     /**
-     * 
-     * @return 
+     * Recupera o nome do consequente
+     * @return Retorna o nome do consequente
      */
-    public String getNomeResultado() {
-        return nomeResultado;
+    public String getConsequente() {
+        return consequente;
+    }
+    
+    /**
+     * Seta o nome do consequente
+     * @param consequente Nome do consequente
+     */
+    public void setConsequente(String consequente) {
+        this.consequente = consequente;
+    }
+    
+    /**
+     * Recupera o valor do consequente
+     * @return Retorna o valor do consequente
+     */
+    public double getValor() {
+        return valor;
     }
 
-    public void setNomeResultado(String nomeResultado) {
-        this.nomeResultado = nomeResultado;
+    /**
+     * Seta o valor do consequente
+     * @param valor Valor do consequente
+     */
+    public void setValor(double valor) {
+        this.valor = valor;
     }
-
-    public double getValorResultado() {
-        return valorResultado;
-    }
-
-    public void setValorResultado(double valorResultado) {
-        this.valorResultado = valorResultado;
-    }
+    
 }

@@ -1,12 +1,13 @@
 package fuzzyai;
 
+import fuzzyai.variavel.VariavelFuzzy;
+import fuzzyai.variavel.AFuncaoPertinencia;
 import org.json.*;
 
-import fuzzyai.abstracoes.AFuncaoPertinencia;
 import fuzzyai.configuracoes.CalculoConector;
 import fuzzyai.configuracoes.Configuracoes;
-import fuzzyai.implementacoes.funcoespertinencia.Trapezio;
-import fuzzyai.implementacoes.funcoespertinencia.Triangulo;
+import fuzzyai.variavel.Trapezio;
+import fuzzyai.variavel.Triangulo;
 import fuzzyai.inferencia.Regra;
 import java.io.BufferedReader;
 import java.io.FileReader;

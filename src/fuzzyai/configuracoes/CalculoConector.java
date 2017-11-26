@@ -3,7 +3,6 @@ package fuzzyai.configuracoes;
 /**
  * Classe responsavel por especificar qual algoritimo deve ser usado para um
  * determinado conector durante a fase de inferencia
- * @author Cassiano Vellames <c.vellames@outlook.com>
  */
 public final class CalculoConector {
     /**

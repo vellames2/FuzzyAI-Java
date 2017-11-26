@@ -5,7 +5,6 @@ import java.util.List;
 /**
  * Classe representando as configurações usadas na inferencia e o algoritimo
  * de deffuzyficação
- * @author Cassiano Vellames <c.vellames@outlook.com>
  */
 public final class Configuracoes {
     

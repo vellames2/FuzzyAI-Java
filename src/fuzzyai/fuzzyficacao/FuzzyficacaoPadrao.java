@@ -1,28 +1,26 @@
 package fuzzyai.fuzzyficacao;
 
 import fuzzyai.ModeloFuzzy;
-import fuzzyai.VariavelFuzzy;
-import fuzzyai.abstracoes.AFuncaoPertinencia;
-import fuzzyai.abstracoes.AFuzzyficacao;
+import fuzzyai.variavel.VariavelFuzzy;
+import fuzzyai.variavel.AFuncaoPertinencia;
 import fuzzyai.inferencia.VariavelFuzzyficada;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public final class FuzzyficacaoPadrao extends AFuzzyficacao {
+/**
+ * Classe responsavel por realizar a etapa de fuzzyficação
+ */
+public final class FuzzyficacaoPadrao implements IFuzzyficacao {
 
-    public FuzzyficacaoPadrao(ModeloFuzzy modeloFuzzy) {
-        super(modeloFuzzy);
-    }
-    
     /**
-     * Realiza a fuzzyficação
-     * @param modeloFuzzy Objeto contendo os dados do modelo fuzzy
-     * @param valoresEntrada ArrayList com os valores de entrada
-     * @return Retorna um array list de variaveis fuzzyficadas
+     * Realiza a etapa de fuzzyficação da logica fuzzy
+     * @param valoresEntrada Valores de entrada para a fuzzyficação
+     * @param modeloFuzzy Modelo fuzzy contendo todas as informações do JSON de configuração do modelo
+     * @return Retorna uma lista de variaveis fuzzyficadas
      */
     @Override
-    public List<VariavelFuzzyficada> fuzzyficar(List<Double> valoresEntrada) {
+    public List<VariavelFuzzyficada> fuzzyficar(List<Double> valoresEntrada, ModeloFuzzy modeloFuzzy) {
         List<VariavelFuzzyficada> variaveisFuzzyficadas = new ArrayList<>();
         /*
             A ordem de entrada nem sempre será igual a ordem que as variaveis fuzzy estão inseridas 
@@ -31,14 +29,14 @@ public final class FuzzyficacaoPadrao extends AFuzzyficacao {
         */
         for(int i = 0; i < valoresEntrada.size(); i++) {
             // Nome da variavel de entrada
-            String nomeValorEntrada = this.getModeloFuzzy().getOrdemEntrada().get(i);
+            String nomeValorEntrada = modeloFuzzy.getOrdemEntrada().get(i);
             
             // Valor de Entrada
             double valorEntrada = valoresEntrada.get(i);
             
             // Verifica o indice da variavel fuzzy a ser fuzzyficada a partir do nome de entrada
-            for(int j = 0; j < this.getModeloFuzzy().getVariaveisFuzzy().size(); j++) {
-                VariavelFuzzy variavelFuzzy = this.getModeloFuzzy().getVariaveisFuzzy().get(j);
+            for(int j = 0; j < modeloFuzzy.getVariaveisFuzzy().size(); j++) {
+                VariavelFuzzy variavelFuzzy = modeloFuzzy.getVariaveisFuzzy().get(j);
                 if(variavelFuzzy.getNome().equals(nomeValorEntrada)) {
                     variaveisFuzzyficadas.add(this.fuzzyficarVariavel(variavelFuzzy, valorEntrada));
                 }
@@ -74,5 +72,4 @@ public final class FuzzyficacaoPadrao extends AFuzzyficacao {
         variavelFuzzyficada.setResultado(resultado);
         return variavelFuzzyficada;
     }
-
 }

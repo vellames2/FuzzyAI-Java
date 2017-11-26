@@ -41,6 +41,9 @@ public final class Regra {
         this.setConsequente(consequente);
     }
     
+    /**
+     * Construtor sem parametros
+     */
     public Regra(){};
     
     /**
