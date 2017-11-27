@@ -1,9 +1,11 @@
-package fuzzyai.variavel;
+package fuzzyai.variavel.funcoespertinencia;
+
+import fuzzyai.reflexao.AnotacaoVariavelFuzzy;
 
 /**
  * Implementação do Triangulo, um tipo de função de pertinencia
  */
-public final class Triangulo extends AFuncaoPertinencia {
+public final class Triangulo implements IFuncaoPertinencia {
     
     /**
      * Pontos do triangulo
@@ -11,12 +13,39 @@ public final class Triangulo extends AFuncaoPertinencia {
     private double a,b,c;
     
     /**
+     * Nome do Triangulo
+     */
+    private String nome;
+    
+    /**
      * Construtor do triangulo
      * @param nome Nome do triangulo
      * @throws IllegalArgumentException Exceções são enviadas para o chamador da funçao
      */
     public Triangulo(String nome) throws IllegalArgumentException{
-        super(nome);
+        this.setNome(nome);
+    }
+    
+    /**
+     * Recupera o nome da função de pertinencia
+     * @return Retorna o nome da função de pertinencia
+     */
+    @Override
+    public String getNome() {
+        return this.nome;
+    }
+    
+    /**
+     * Seta o nome da função de pertinencia
+     * @param nome Nome da função de pertinencia
+     * @throws IllegalArgumentException Uma exceção é lançada se o nome da função de pertinencia estiver vazia
+     */
+    @Override
+    public void setNome(String nome) throws IllegalArgumentException {
+        if(nome == null || nome.isEmpty()){
+            throw new IllegalArgumentException("O nome da função de pertinencia não pode ser vazio");
+        }
+        this.nome = nome;
     }
 
     /**
@@ -32,6 +61,7 @@ public final class Triangulo extends AFuncaoPertinencia {
      * @param a Ponto A do triangulo
      * @throws IllegalArgumentException O triangulo aceita apenas valores positivos ou -1 para representar nulo
      */
+    @AnotacaoVariavelFuzzy(numeroPontoFuncaoPertinencia = 0)
     public void setA(double a) throws IllegalArgumentException {
         if(a < 0 && a != -1) {
             throw new IllegalArgumentException("Utilize -1 para representar um ponto nulo");
@@ -52,6 +82,7 @@ public final class Triangulo extends AFuncaoPertinencia {
      * @param b Ponto B do triangulo
      * @throws IllegalArgumentException O triangulo aceita apenas valores positivos ou -1 para representar nulo
      */
+    @AnotacaoVariavelFuzzy(numeroPontoFuncaoPertinencia = 1)
     public void setB(double b) {
         if(b < 0 && b != -1) {
             throw new IllegalArgumentException("Utilize -1 para representar um ponto nulo");
@@ -72,6 +103,7 @@ public final class Triangulo extends AFuncaoPertinencia {
      * @param c Ponto C do triangulo
      * @throws IllegalArgumentException O triangulo aceita apenas valores positivos ou -1 para representar nulo
      */
+    @AnotacaoVariavelFuzzy(numeroPontoFuncaoPertinencia = 2)
     public void setC(double c) {
         if(c < 0 && c != -1) {
             throw new IllegalArgumentException("Utilize -1 para representar um ponto nulo");

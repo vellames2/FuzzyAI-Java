@@ -1,19 +1,20 @@
 package fuzzyai;
 
 import fuzzyai.variavel.VariavelFuzzy;
-import fuzzyai.variavel.AFuncaoPertinencia;
 import org.json.*;
 
 import fuzzyai.configuracoes.CalculoConector;
 import fuzzyai.configuracoes.Configuracoes;
-import fuzzyai.variavel.Trapezio;
-import fuzzyai.variavel.Triangulo;
+import fuzzyai.variavel.funcoespertinencia.Trapezio;
+import fuzzyai.variavel.funcoespertinencia.Triangulo;
 import fuzzyai.inferencia.Regra;
+import fuzzyai.reflexao.ReflexaoFuncaoPertinencia;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import fuzzyai.variavel.funcoespertinencia.IFuncaoPertinencia;
 
 /**
  * Contem todas as informações referentes ao modelo fuzzy em questão
@@ -55,6 +56,12 @@ public final class ModeloFuzzy {
      * Lista com todas as regras que devem ser usadas na inferencia
      */
     private List<Regra> regras;
+    
+    /**
+     * Objeto JSON com todas as informações do modelo, essa variavel é preenchida
+     * quando os campos são carregados.
+     */
+    private JSONObject jsonObject;
             
     /**
      * Construtor do modelo fuzzy
@@ -185,26 +192,40 @@ public final class ModeloFuzzy {
      * @param caminho Caminho do JSON
      * @throws Exception Qualquer excessão será enviada para o chamador da função
      */
-    public void carregar(String caminho) throws Exception {
+    public void carregarCampos(String caminho) throws Exception {
         // Recupera o JSON escrito no arquivo
         JSONObject jsonObject = this.transformarArquivoEmJSON(caminho);
         
-        // Carrega as informações básicas do modelo
-        this.carregarInformacoesBasicas(jsonObject);
-        
-        // Carrega as configuraçõs do modelo
-        this.carregarConfiguracoes(jsonObject);
+        // Guarda resultado do jsonObject para nao precisar fazer a transformação novamente
+        this.jsonObject = jsonObject;
         
         // Carrega a ordem de inserção dos campos
         this.carregarOrdemEntrada(jsonObject);
+    }
+    
+    /**
+     * Carrega todos os dados do modelo fuzzy
+     * @throws Exception Qualquer excessão será enviada para o chamador da função
+     */
+    public void carregarModeloFuzzy() throws Exception {     
+        
+        if(this.jsonObject == null) {
+            throw new IllegalArgumentException("O JSON ainda não foi carregado");
+        }
+        
+        // Carrega as informações básicas do modelo
+        this.carregarInformacoesBasicas(this.jsonObject);
+        
+        // Carrega as configuraçõs do modelo
+        this.carregarConfiguracoes(this.jsonObject);
         
         // Carrega as variaveis fuzzy
-        this.carregarVariaveis(jsonObject);
+        this.carregarVariaveis(this.jsonObject);
         
         // Carrega a variavel da inferencia
-        this.carregarVariavelInferencia(jsonObject);
+        this.carregarVariavelInferencia(this.jsonObject);
         
-        this.carregarRegras(jsonObject);
+        this.carregarRegras(this.jsonObject);
     }
     
     /**
@@ -276,7 +297,7 @@ public final class ModeloFuzzy {
             JSONArray funcoesPertinenciaVariavel = variavel.getJSONArray("values");
             
             // ArrayList com todas as funções de pertinencia da variavel
-            ArrayList<AFuncaoPertinencia> funcoesPertinencia = new ArrayList<>();
+            ArrayList<IFuncaoPertinencia> funcoesPertinencia = new ArrayList<>();
             
             // Varre todas as funções de pertineicia da variavel
             for(int j = 0; j < funcoesPertinenciaVariavel.length(); j++) {
@@ -288,81 +309,13 @@ public final class ModeloFuzzy {
                 String tipoFuncaoPertinencia = funcaoPertinenciaVariavel.getString("type");
                 String nomeFuncaoPertinencia = funcaoPertinenciaVariavel.getString("name");
                 
-                // Verifica o tipo da variavel para saber qual tipo de funçao de pertinencia instanciar
-                if(tipoFuncaoPertinencia.trim().toLowerCase().equals("triangle")) {
-                    // Instancia um novo triangulo
-                    Triangulo triangulo = new Triangulo(nomeFuncaoPertinencia);
-                    
-                    // Recupera os valores que montam a função de pertinencia
-                    JSONArray funcaoPertinenciaValores = funcaoPertinenciaVariavel.getJSONArray("values");
-                    
-                    // Itera sobre os valores que montam a função de pertinencia
-                    for(int k = 0; k < funcaoPertinenciaValores.length(); k++) {
-                        // Recupera pontos e seta nos pontos da função de pertinencia
-                        try {
-                            double value = funcaoPertinenciaValores.getDouble(k);
-
-                            switch(k) {
-                                case 0:
-                                    triangulo.setA(value);
-                                    break;
-                                case 1:
-                                    triangulo.setB(value);
-                                    break;
-                                case 2:
-                                    triangulo.setC(value);
-                                    break;
-                                default:
-                                    throw new IllegalArgumentException("Um triangulo pode apenas ter três coordenadas");
-                            } 
-                            //System.out.println(nomeFuncaoPertinencia + ": " + x + " - " + y);
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                    
-                    // Adiciona a função de pertinencia a variavel
-                    funcoesPertinencia.add(triangulo);
-                    
-                } 
-                
-                else if(tipoFuncaoPertinencia.trim().toLowerCase().equals("trapezio")) {
-                    Trapezio trapezio = new Trapezio(nomeFuncaoPertinencia);
-                    
-                    // Recupera os valores que montam a função de pertinencia
-                    JSONArray funcaoPertinenciaValores = funcaoPertinenciaVariavel.getJSONArray("values");
-                    
-                    // Itera sobre os valores que montam a função de pertinencia
-                    for(int k = 0; k < funcaoPertinenciaValores.length(); k++) {
-                        // Recupera pontos e seta nos pontos da função de pertinencia
-                        try {
-                            double value = funcaoPertinenciaValores.getDouble(k);
-
-                            switch(k) {
-                                case 0:
-                                    trapezio.setA(value);
-                                    break;
-                                case 1:
-                                    trapezio.setB(value);
-                                    break;
-                                case 2:
-                                    trapezio.setC(value);
-                                    break;
-                                case 3:
-                                    trapezio.setD(value);
-                                    break;
-                                default:
-                                    throw new IllegalArgumentException("Um trapezio pode apenas ter quatro coordenadas");
-                            } 
-                            //System.out.println(nomeFuncaoPertinencia + ": " + x + " - " + y);
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                    
-                    // Adiciona a função de pertinencia a variavel
-                    funcoesPertinencia.add(trapezio);
-                }
+                // Instancia uma nova função de pertinencia e adiciona a lista de funções de pertinencia da variavel fuzzy
+                IFuncaoPertinencia funcaoPertinencia = ReflexaoFuncaoPertinencia.getInstancia().criarFuncaoPertinencia(
+                        tipoFuncaoPertinencia, 
+                        nomeFuncaoPertinencia,
+                        funcaoPertinenciaVariavel.getJSONArray("values")
+                );
+                funcoesPertinencia.add(funcaoPertinencia);
             }
             
             // Adiciona variavel fuzzy ao 
@@ -455,7 +408,7 @@ public final class ModeloFuzzy {
      * @throws Exception QUalquer excessão será enviada para o chamador da função
      */
     private void carregarVariavelInferencia(JSONObject jsonObject) throws Exception {
-        ArrayList<AFuncaoPertinencia> funcoesPertinencia = new ArrayList<>();
+        ArrayList<IFuncaoPertinencia> funcoesPertinencia = new ArrayList<>();
         Trapezio baixo = new Trapezio("Baixo");
         baixo.setA(-1);
         baixo.setB(0);

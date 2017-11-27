@@ -2,11 +2,11 @@ package fuzzyai.fuzzyficacao;
 
 import fuzzyai.ModeloFuzzy;
 import fuzzyai.variavel.VariavelFuzzy;
-import fuzzyai.variavel.AFuncaoPertinencia;
 import fuzzyai.inferencia.VariavelFuzzyficada;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import fuzzyai.variavel.funcoespertinencia.IFuncaoPertinencia;
 
 /**
  * Classe responsavel por realizar a etapa de fuzzyficação
@@ -57,7 +57,7 @@ public final class FuzzyficacaoPadrao implements IFuzzyficacao {
         HashMap<String, Double> resultado = new HashMap<>();
         
         // Varre todas as funções de pertinencia pra verificar em quais ela toca
-        for(AFuncaoPertinencia funcaoPertinencia : variavelFuzzy.getFuncoesPertinencia()) {
+        for(IFuncaoPertinencia funcaoPertinencia : variavelFuzzy.getFuncoesPertinencia()) {
             double primeiroPonto = funcaoPertinencia.getPrimeiroPonto();
             double ultimoPonto = funcaoPertinencia.getUltimoPonto();
             

@@ -1,4 +1,4 @@
-package fuzzyai.inferencia;
+    package fuzzyai.inferencia;
 
 import fuzzyai.ModeloFuzzy;
 import fuzzyai.configuracoes.CalculoConector;
@@ -85,6 +85,10 @@ public class InferenciaPadrao implements IInferencia{
                 atual = modoCalculo.calcular(atual, valor);
             }
             resultadoRegras.add(new ResultadoRegra(consequente, atual));
+        }
+        System.out.println(resultadoRegras.toString());
+        for(ResultadoRegra regrat : resultadoRegras) {
+            System.out.println(regrat.getConsequente() + " - " + regrat.getValor());
         }
         return resultadoRegras;
     }

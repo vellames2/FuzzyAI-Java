@@ -217,9 +217,11 @@ public final class FuzzyAI {
         
         // Carrega os campos
         try {
-            modeloFuzzy.carregar(caminho);
+            modeloFuzzy.carregarCampos(caminho);
         } catch (Exception e) {
-            
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+            return;
         }
         
         // Adiciona o label e os campos no panel
@@ -284,10 +286,12 @@ public final class FuzzyAI {
                         }
                     }
                     //JOptionPane.showMessageDialog(null, txt, "Fuzzyficação", JOptionPane.INFORMATION_MESSAGE);
+                    System.out.println(txt);
                     
                     IInferencia inferencia = new InferenciaPadrao();
                     inferencia.inferir(variaveisFuzzyficadas, modeloFuzzy);
                 } catch (Exception ex) {
+                    ex.printStackTrace();
                     JOptionPane.showMessageDialog(null, ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
                 }
             }

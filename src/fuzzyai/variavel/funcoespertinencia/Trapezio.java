@@ -1,13 +1,20 @@
-package fuzzyai.variavel;
+package fuzzyai.variavel.funcoespertinencia;
+
+import fuzzyai.reflexao.AnotacaoVariavelFuzzy;
 
 /**
  * Implementação do Trapezio, um tipo de função de pertinencia
  */
-public final class Trapezio extends AFuncaoPertinencia {
+public final class Trapezio implements IFuncaoPertinencia {
     /**
      * Pontos do trapezio
      */
     private double a,b,c,d;
+    
+    /**
+     * Nome do Trapezio
+     */
+    private String nome;
     
     /**
      * Construtor do trapezio
@@ -15,7 +22,29 @@ public final class Trapezio extends AFuncaoPertinencia {
      * @throws IllegalArgumentException Exceções são enviadas para o chamador da funçao
      */
     public Trapezio(String nome) throws IllegalArgumentException{
-        super(nome);
+        this.setNome(nome);
+    }
+    
+    /**
+     * Recupera o nome da função de pertinencia
+     * @return Retorna o nome da função de pertinencia
+     */
+    @Override
+    public String getNome() {
+        return this.nome;
+    }
+    
+    /**
+     * Seta o nome da função de pertinencia
+     * @param nome Nome da função de pertinencia
+     * @throws IllegalArgumentException Uma exceção é lançada se o nome da função de pertinencia estiver vazia
+     */
+    @Override
+    public void setNome(String nome) throws IllegalArgumentException {
+        if(nome == null || nome.isEmpty()){
+            throw new IllegalArgumentException("O nome da função de pertinencia não pode ser vazio");
+        }
+        this.nome = nome;
     }
     
     /**
@@ -31,6 +60,7 @@ public final class Trapezio extends AFuncaoPertinencia {
      * @param a Ponto A do trapezio
      * @throws IllegalArgumentException O trapezio aceita apenas valores positivos ou -1 para representar nulo
      */
+    @AnotacaoVariavelFuzzy(numeroPontoFuncaoPertinencia = 0)
     public void setA(double a) throws IllegalArgumentException {
         if(a < 0 && a != -1) {
             throw new IllegalArgumentException("Utilize -1 para representar um ponto nulo");
@@ -51,6 +81,7 @@ public final class Trapezio extends AFuncaoPertinencia {
      * @param b Ponto B do trapezio
      * @throws IllegalArgumentException O trapezio aceita apenas valores positivos ou -1 para representar nulo
      */
+    @AnotacaoVariavelFuzzy(numeroPontoFuncaoPertinencia = 1)
     public void setB(double b) {
         if(b < 0 && b != -1) {
             throw new IllegalArgumentException("Utilize -1 para representar um ponto nulo");
@@ -71,6 +102,7 @@ public final class Trapezio extends AFuncaoPertinencia {
      * @param c Ponto C do trapezio
      * @throws IllegalArgumentException O trapezio aceita apenas valores positivos ou -1 para representar nulo
      */
+    @AnotacaoVariavelFuzzy(numeroPontoFuncaoPertinencia = 2)
     public void setC(double c) {
         if(c < 0 && c != -1) {
             throw new IllegalArgumentException("Utilize -1 para representar um ponto nulo");
@@ -91,6 +123,7 @@ public final class Trapezio extends AFuncaoPertinencia {
      * @param d Ponto D do trapezio
      * @throws IllegalArgumentException O trapezio aceita apenas valores positivos ou -1 para representar nulo
      */
+    @AnotacaoVariavelFuzzy(numeroPontoFuncaoPertinencia = 3)
     public void setD(double d) {
         if(d < 0 && d != -1) {
             throw new IllegalArgumentException("Utilize -1 para representar um ponto nulo");

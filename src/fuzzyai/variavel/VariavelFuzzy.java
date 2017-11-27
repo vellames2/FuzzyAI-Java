@@ -1,7 +1,7 @@
 package fuzzyai.variavel;
 
-import fuzzyai.variavel.AFuncaoPertinencia;
 import java.util.ArrayList;
+import fuzzyai.variavel.funcoespertinencia.IFuncaoPertinencia;
 
 /**
  * Representação de uma variavel fuzzy
@@ -16,7 +16,7 @@ public final class VariavelFuzzy {
     /**
      * Lista com todas as funções de pertinencia da variavel
      */
-    private ArrayList<AFuncaoPertinencia> funcoesPertinencia;
+    private ArrayList<IFuncaoPertinencia> funcoesPertinencia;
     
     /**
      * Construtor da classe
@@ -24,7 +24,7 @@ public final class VariavelFuzzy {
      * @param funcoesPertinencia Funções de pertinencia
      * @throws IllegalArgumentException Exceções serão enviadas para o chamador da função
      */
-    public VariavelFuzzy(String nome, ArrayList<AFuncaoPertinencia> funcoesPertinencia) throws IllegalArgumentException{
+    public VariavelFuzzy(String nome, ArrayList<IFuncaoPertinencia> funcoesPertinencia) throws IllegalArgumentException{
         this.setNome(nome);
         this.setFuncoesPertinencia(funcoesPertinencia);
     }
@@ -53,7 +53,7 @@ public final class VariavelFuzzy {
      * Recupera as funções de pertinencia da variavel
      * @return Retorna as funções de pertinencia da variavel
      */
-    public ArrayList<AFuncaoPertinencia> getFuncoesPertinencia() {
+    public ArrayList<IFuncaoPertinencia> getFuncoesPertinencia() {
         return funcoesPertinencia;
     }
 
@@ -62,7 +62,7 @@ public final class VariavelFuzzy {
      * @param funcoesPertinencia Lista com as funções de pertinencia da variavel
      * @throws IllegalArgumentException Uma exceção é lançada se a lista estiver nula ou vazia
      */
-    public void setFuncoesPertinencia(ArrayList<AFuncaoPertinencia> funcoesPertinencia) throws IllegalArgumentException {
+    public void setFuncoesPertinencia(ArrayList<IFuncaoPertinencia> funcoesPertinencia) throws IllegalArgumentException {
         if(funcoesPertinencia == null) {
             throw new IllegalArgumentException("A lista de funções de pertinencia não pode ser nula");
         }
