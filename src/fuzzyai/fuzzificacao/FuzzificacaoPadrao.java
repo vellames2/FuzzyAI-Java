@@ -1,4 +1,4 @@
-package fuzzyai.fuzzyficacao;
+package fuzzyai.fuzzificacao;
 
 import fuzzyai.ModeloFuzzy;
 import fuzzyai.variavel.VariavelFuzzy;
@@ -11,7 +11,7 @@ import fuzzyai.variavel.funcoespertinencia.IFuncaoPertinencia;
 /**
  * Classe responsavel por realizar a etapa de fuzzyficação
  */
-public final class FuzzyficacaoPadrao implements IFuzzyficacao {
+public final class FuzzificacaoPadrao implements IFuzzificacao {
 
     /**
      * Realiza a etapa de fuzzyficação da logica fuzzy

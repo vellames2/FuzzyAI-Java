@@ -1,8 +1,7 @@
 package fuzzyai;
 
 import fuzzyai.inferencia.IInferencia;
-import fuzzyai.fuzzyficacao.FuzzyficacaoPadrao;
-import fuzzyai.fuzzyficacao.IFuzzyficacao;
+import fuzzyai.fuzzificacao.FuzzificacaoPadrao;
 import fuzzyai.inferencia.InferenciaPadrao;
 import fuzzyai.inferencia.VariavelFuzzyficada;
 import java.awt.BorderLayout;
@@ -24,6 +23,7 @@ import javax.swing.filechooser.FileSystemView;
 import java.io.File;
 import java.util.List;
 import javax.swing.JOptionPane;
+import fuzzyai.fuzzificacao.IFuzzificacao;
 
 public final class FuzzyAI {
     
@@ -275,7 +275,7 @@ public final class FuzzyAI {
                 
                 // Fuzzyficação
                 try {
-                    IFuzzyficacao fuzzyficacao = new FuzzyficacaoPadrao();
+                    IFuzzificacao fuzzyficacao = new FuzzificacaoPadrao();
                     List<VariavelFuzzyficada> variaveisFuzzyficadas = fuzzyficacao.fuzzyficar(valoresEntrada, modeloFuzzy);
                     String txt = "";
                     for(VariavelFuzzyficada variavelFuzzyficada : variaveisFuzzyficadas) {
