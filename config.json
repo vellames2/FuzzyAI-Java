@@ -16,7 +16,7 @@
         "mode": "Max"
       }
     ],
-    "deffuzyfication": "centroid"
+    "deffuzyfication": "Centroid"
   },
   "variables": {
     "input": [
