@@ -1,5 +1,6 @@
 package fuzzyai;
 
+import fuzzyai.defuzzificacao.Centroid;
 import fuzzyai.inferencia.IInferencia;
 import fuzzyai.fuzzificacao.FuzzificacaoPadrao;
 import fuzzyai.inferencia.InferenciaPadrao;
@@ -290,6 +291,9 @@ public final class FuzzyAI {
                     
                     IInferencia inferencia = new InferenciaPadrao();
                     inferencia.inferir(variaveisFuzzyficadas, modeloFuzzy);
+                    
+                    Centroid centroid = new Centroid();
+                    centroid.defuzzificar();
                 } catch (Exception ex) {
                     ex.printStackTrace();
                     JOptionPane.showMessageDialog(null, ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
