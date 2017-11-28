@@ -20,7 +20,7 @@ public final class FuzzificacaoPadrao implements IFuzzificacao {
      * @return Retorna uma lista de variaveis fuzzyficadas
      */
     @Override
-    public List<VariavelFuzzyficada> fuzzyficar(List<Double> valoresEntrada, ModeloFuzzy modeloFuzzy) {
+    public List<VariavelFuzzyficada> fuzzificar(List<Double> valoresEntrada, ModeloFuzzy modeloFuzzy) {
         List<VariavelFuzzyficada> variaveisFuzzyficadas = new ArrayList<>();
         /*
             A ordem de entrada nem sempre será igual a ordem que as variaveis fuzzy estão inseridas 
@@ -38,21 +38,22 @@ public final class FuzzificacaoPadrao implements IFuzzificacao {
             for(int j = 0; j < modeloFuzzy.getVariaveisFuzzy().size(); j++) {
                 VariavelFuzzy variavelFuzzy = modeloFuzzy.getVariaveisFuzzy().get(j);
                 if(variavelFuzzy.getNome().equals(nomeValorEntrada)) {
-                    variaveisFuzzyficadas.add(this.fuzzyficarVariavel(variavelFuzzy, valorEntrada));
+                    variaveisFuzzyficadas.add(this.fuzzificarVariavel(variavelFuzzy, valorEntrada));
                 }
             }  
         }
         
         return variaveisFuzzyficadas;
     }
-    
+        
     /**
      * Realiza a fuzzyficação de uma variavel
      * @param variavelFuzzy Variavel a ser fuzzyficada
      * @param valorEntrada Valor de entrada
      * @return Retorna um objeto com a variavel fuzzyficada
      */
-    protected VariavelFuzzyficada fuzzyficarVariavel(VariavelFuzzy variavelFuzzy, double valorEntrada) {
+    @Override
+    public VariavelFuzzyficada fuzzificarVariavel(VariavelFuzzy variavelFuzzy, double valorEntrada) {
         VariavelFuzzyficada variavelFuzzyficada = new VariavelFuzzyficada(variavelFuzzy, valorEntrada);
         HashMap<String, Double> resultado = new HashMap<>();
         

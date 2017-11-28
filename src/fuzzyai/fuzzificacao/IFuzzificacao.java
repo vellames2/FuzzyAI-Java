@@ -2,6 +2,7 @@ package fuzzyai.fuzzificacao;
 
 import fuzzyai.ModeloFuzzy;
 import fuzzyai.inferencia.VariavelFuzzyficada;
+import fuzzyai.variavel.VariavelFuzzy;
 import java.util.List;
 
 /**
@@ -14,5 +15,13 @@ public interface IFuzzificacao {
      * @param modeloFuzzy Modelo fuzzy contendo todas as informações do JSON de configuração do modelo
      * @return Retorna uma lista de variaveis fuzzyficadas
      */
-    public List<VariavelFuzzyficada> fuzzyficar(List<Double> valoresEntrada, ModeloFuzzy modeloFuzzy);  
+    public List<VariavelFuzzyficada> fuzzificar(List<Double> valoresEntrada, ModeloFuzzy modeloFuzzy);  
+    
+    /**
+     * Realiza a fuzzyficação de uma variavel
+     * @param variavelFuzzy Variavel a ser fuzzyficada
+     * @param valorEntrada Valor de entrada
+     * @return Retorna um objeto com a variavel fuzzyficada
+     */
+    public VariavelFuzzyficada fuzzificarVariavel(VariavelFuzzy variavelFuzzy, double valorEntrada);
 }

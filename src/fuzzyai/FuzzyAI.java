@@ -277,7 +277,7 @@ public final class FuzzyAI {
                 // Fuzzyficação
                 try {
                     IFuzzificacao fuzzyficacao = new FuzzificacaoPadrao();
-                    List<VariavelFuzzyficada> variaveisFuzzyficadas = fuzzyficacao.fuzzyficar(valoresEntrada, modeloFuzzy);
+                    List<VariavelFuzzyficada> variaveisFuzzyficadas = fuzzyficacao.fuzzificar(valoresEntrada, modeloFuzzy);
                     String txt = "";
                     for(VariavelFuzzyficada variavelFuzzyficada : variaveisFuzzyficadas) {
                         txt += ("\n" + variavelFuzzyficada.getVariavelFuzzy().getNome() + "\n");
