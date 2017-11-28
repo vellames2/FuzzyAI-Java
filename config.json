@@ -16,6 +16,8 @@
         "mode": "Max"
       }
     ],
+    "fuzzyfication": "FuzzificacaoPadrao",
+    "inference": "InferenciaPadrao",
     "deffuzyfication": "Centroid"
   },
   "variables": {
