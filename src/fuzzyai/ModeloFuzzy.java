@@ -310,10 +310,7 @@ public final class ModeloFuzzy {
        
         // Realiza a leitura da primeira linha
         String linha = leitor.readLine();
-        
-        // Adiciona a leitura da primeira linha a string json de retorno
-        json = linha;
-        
+                
         // Realiza a leitura de todas as linhas do arquivo
         while(linha != null) {
             json += linha;
@@ -322,6 +319,8 @@ public final class ModeloFuzzy {
         
         // Fecha o arquivo
         arquivo.close();
+        
+        System.out.println(json);
         
         // Converte a string json em um JSONObject e retorna seu valor
         return new JSONObject(json);
