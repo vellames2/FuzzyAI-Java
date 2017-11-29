@@ -475,28 +475,30 @@ public final class ModeloFuzzy {
      * @throws Exception QUalquer excessão será enviada para o chamador da função
      */
     private void carregarVariavelInferencia(JSONObject jsonObject) throws Exception {
+        JSONObject variavelJSON = jsonObject.getJSONObject("variables").getJSONObject("output");
+        JSONArray funcoesPertinenciaVariavel = variavelJSON.getJSONArray("values");
+        
+        // ArrayList com todas as funções de pertinencia da variavel
         ArrayList<IFuncaoPertinencia> funcoesPertinencia = new ArrayList<>();
-        Trapezio baixo = new Trapezio("Baixo");
-        baixo.setA(-1);
-        baixo.setB(0);
-        baixo.setC(50);
-        baixo.setD(70);
         
-        Triangulo medio = new Triangulo("Médio");
-        medio.setA(50);
-        medio.setB(70);
-        medio.setC(90);
+        // Varre todas as funções de pertineicia da variavel
+        for(int j = 0; j < funcoesPertinenciaVariavel.length(); j++) {
+            // Recupera a função de pertinencia atual da iteração 
+            JSONObject funcaoPertinenciaVariavel = funcoesPertinenciaVariavel.getJSONObject(j);
+
+            // Recupera algumas informações da função de pertinencia
+            String tipoFuncaoPertinencia = funcaoPertinenciaVariavel.getString("type");
+            String nomeFuncaoPertinencia = funcaoPertinenciaVariavel.getString("name");
+
+            // Instancia uma nova função de pertinencia e adiciona a lista de funções de pertinencia da variavel fuzzy
+            IFuncaoPertinencia funcaoPertinencia = ReflexaoFuncaoPertinencia.getInstancia().criarFuncaoPertinencia(
+                    tipoFuncaoPertinencia, 
+                    nomeFuncaoPertinencia,
+                    funcaoPertinenciaVariavel.getJSONArray("values")
+            );
+            funcoesPertinencia.add(funcaoPertinencia);
+        }
         
-        Trapezio alto = new Trapezio("Alto");
-        alto.setA(70);
-        alto.setB(90);
-        alto.setC(-1);
-        alto.setD(-1);
-        
-        funcoesPertinencia.add(baixo);
-        funcoesPertinencia.add(medio);
-        funcoesPertinencia.add(alto);
-        
-        this.setVariavelInferencia(new VariavelFuzzy("risco", funcoesPertinencia));
+        this.setVariavelInferencia(new VariavelFuzzy(variavelJSON.getString("name"), funcoesPertinencia));
     }
 }
