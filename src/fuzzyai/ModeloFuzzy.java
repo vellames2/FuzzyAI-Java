@@ -58,6 +58,21 @@ public final class ModeloFuzzy {
     private List<Regra> regras;
     
     /**
+     * Classe usada para a fuzzificação
+     */
+    private String modoFuzzificacao;
+    
+    /**
+     * Classe usada para a inferencia
+     */
+    private String modoInferencia;
+    
+    /**
+     * Classe usada para a defuzzificacao
+     */
+    private String modoDefuzzificacao;
+    
+    /**
      * Objeto JSON com todas as informações do modelo, essa variavel é preenchida
      * quando os campos são carregados.
      */
@@ -185,6 +200,54 @@ public final class ModeloFuzzy {
         this.variavelInferencia = variavelInferencia;
     }
     
+    /**
+     * Recupera o nome da classe a ser usada na fuzzificacao
+     * @return Retorna o nome da classe a ser usada na fuzzificacao
+     */
+    public String getModoFuzzificacao() {
+        return modoFuzzificacao;
+    }
+
+    /**
+     * Seta o nome da classe a ser usada na fuzzificacao
+     * @param modoFuzzificacao Nome da classe a ser usada na fuzzificacao
+     */
+    public void setModoFuzzificacao(String modoFuzzificacao) {
+        this.modoFuzzificacao = modoFuzzificacao;
+    }
+    
+    /**
+     * Recupera o nome da classe a ser usada na inferencia
+     * @return Retorna o nome da classe a ser usada na inferencia
+     */
+    public String getModoInferencia() {
+        return modoInferencia;
+    }
+    
+     /**
+     * Seta o nome da classe a ser usada na inferencia
+     * @param modoInferencia Nome da classe a ser usada na inferencia
+     */
+    public void setModoInferencia(String modoInferencia) {
+        this.modoInferencia = modoInferencia;
+    }
+    
+    /**
+     * Recupera o nome da classe a ser usada na defuzzificacao
+     * @return Retorna o nome da classe a ser usada na defuzzificacao
+     */
+    public String getModoDefuzzificacao() {
+        return modoDefuzzificacao;
+    }
+    
+     /**
+     * Seta o nome da classe a ser usada na inferencia
+     * @param modoDefuzzificacao Nome da classe a ser usada na defuzzificacao
+     */
+    public void setModoDefuzzificacao(String modoDefuzzificacao) {
+        this.modoDefuzzificacao = modoDefuzzificacao;
+    }
+
     ///////////////////////////////////////////////////////////////////////////////////////////////////
     
     /**
@@ -225,6 +288,7 @@ public final class ModeloFuzzy {
         // Carrega a variavel da inferencia
         this.carregarVariavelInferencia(this.jsonObject);
         
+        // Carrega as regras da inferencia
         this.carregarRegras(this.jsonObject);
     }
     
@@ -353,6 +417,9 @@ public final class ModeloFuzzy {
         }
         
         this.setConfiguracoes(new Configuracoes(modoDeffuzyficacao, calculoConectores));
+        this.setModoFuzzificacao(configuracoes.getString("fuzzyfication"));
+        this.setModoInferencia(configuracoes.getString("inference"));
+        this.setModoDefuzzificacao(configuracoes.getString("deffuzyfication"));
     }
     
     /**

@@ -1,5 +1,6 @@
 package fuzzyai.reflexao;
 
+import fuzzyai.ConfiguracoesSistema;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -17,12 +18,7 @@ public final class ReflexaoFuncaoPertinencia {
      * Instancia da classe (Singleton)
      */
     private static ReflexaoFuncaoPertinencia instancia;
-    
-    /**
-     * Pacote onde se encontram as funções de pertinencia
-     */
-    private final String pacoteVariaveis = "fuzzyai.variavel.funcoespertinencia";
-    
+        
     /**
      * Construtor privado (Singleton)
      */
@@ -50,7 +46,7 @@ public final class ReflexaoFuncaoPertinencia {
      */
     public IFuncaoPertinencia criarFuncaoPertinencia(String tipo, String nome, JSONArray pontosFuncaoPertinencia) throws Exception{
         // Instancia uma nova função de pertinencia
-        Class<?> classe = Class.forName(this.pacoteVariaveis + "." + tipo);
+        Class<?> classe = Class.forName(ConfiguracoesSistema.PACOTE_FUNCOES_PERTINENCIA + "." + tipo);
         Constructor<?> construtor = classe.getConstructor(String.class);
         Object funcaoPertinencia = construtor.newInstance(new Object[] { nome });
         

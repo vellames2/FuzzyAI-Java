@@ -43,6 +43,17 @@ public final class FuzzificacaoPadrao implements IFuzzificacao {
             }  
         }
         
+        // Exibe saida no console
+        String txt = "";
+        for(VariavelFuzzyficada variavelFuzzyficada : variaveisFuzzyficadas) {
+            txt += ("\n" + variavelFuzzyficada.getVariavelFuzzy().getNome() + "\n");
+            Object[] keys = variavelFuzzyficada.getResultado().keySet().toArray();
+            for(int x = 0; x < variavelFuzzyficada.getResultado().size(); x++) {
+                txt += (keys[x] + " - " + variavelFuzzyficada.getResultado().get(keys[x].toString()) + "\n");
+            }
+        }
+        System.out.println(txt);
+        
         return variaveisFuzzyficadas;
     }
         

@@ -1,6 +1,7 @@
 package fuzzyai;
 
 import fuzzyai.defuzzificacao.Centroid;
+import fuzzyai.defuzzificacao.IDefuzzificacao;
 import fuzzyai.inferencia.IInferencia;
 import fuzzyai.fuzzificacao.FuzzificacaoPadrao;
 import fuzzyai.inferencia.InferenciaPadrao;
@@ -128,7 +129,7 @@ public final class FuzzyAI {
         
         // Input para adicionar o caminho do JSON
         JTextField inputCaminhoJSON = new JTextField(40);
-        inputCaminhoJSON.setText("/home/vellames/Documents/Faculdade/Inteligencia Artificial/FuzzyAI/FuzzyAI/config.min.json");
+        inputCaminhoJSON.setText("C:\\Users\\cassiano.vellames.TOPOS\\Desktop\\FuzzyAI-Java\\config.min.json");
         inputCaminhoJSON.setEditable(false);
         
         // Botão de importação
@@ -274,26 +275,21 @@ public final class FuzzyAI {
                     return;
                 }
                 
-                // Fuzzyficação
                 try {
-                    IFuzzificacao fuzzyficacao = new FuzzificacaoPadrao();
-                    List<VariavelFuzzyficada> variaveisFuzzyficadas = fuzzyficacao.fuzzificar(valoresEntrada, modeloFuzzy);
-                    String txt = "";
-                    for(VariavelFuzzyficada variavelFuzzyficada : variaveisFuzzyficadas) {
-                        txt += ("\n" + variavelFuzzyficada.getVariavelFuzzy().getNome() + "\n");
-                        Object[] keys = variavelFuzzyficada.getResultado().keySet().toArray();
-                        for(int x = 0; x < variavelFuzzyficada.getResultado().size(); x++) {
-                            txt += (keys[x] + " - " + variavelFuzzyficada.getResultado().get(keys[x].toString()) + "\n");
-                        }
-                    }
-                    //JOptionPane.showMessageDialog(null, txt, "Fuzzyficação", JOptionPane.INFORMATION_MESSAGE);
-                    System.out.println(txt);
+                    // Carrega o restante do modelo fuzzy
+                    modeloFuzzy.carregarModeloFuzzy();
                     
-                    IInferencia inferencia = new InferenciaPadrao();
+                    // Fuzzificacao
+                    IFuzzificacao fuzzyficacao = (IFuzzificacao) Class.forName(ConfiguracoesSistema.PACOTE_FUZZIFICACAO + "." + modeloFuzzy.getModoFuzzificacao()).newInstance();
+                    List<VariavelFuzzyficada> variaveisFuzzyficadas = fuzzyficacao.fuzzificar(valoresEntrada, modeloFuzzy);
+                    
+                    // Inferencia
+                    IInferencia inferencia = (IInferencia) Class.forName(ConfiguracoesSistema.PACOTE_INFERENCIA + "." + modeloFuzzy.getModoInferencia()).newInstance();
                     inferencia.inferir(variaveisFuzzyficadas, modeloFuzzy);
                     
-                    Centroid centroid = new Centroid();
-                    centroid.defuzzificar();
+                    // Defuzzificacao
+                    IDefuzzificacao defuzzificacao = (IDefuzzificacao) Class.forName(ConfiguracoesSistema.PACOTE_DEFUZZIFICACAO + "." + modeloFuzzy.getModoDefuzzificacao()).newInstance();
+                    defuzzificacao.defuzzificar();
                 } catch (Exception ex) {
                     ex.printStackTrace();
                     JOptionPane.showMessageDialog(null, ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
