@@ -320,8 +320,6 @@ public final class ModeloFuzzy {
         // Fecha o arquivo
         arquivo.close();
         
-        System.out.println(json);
-        
         // Converte a string json em um JSONObject e retorna seu valor
         return new JSONObject(json);
     }
