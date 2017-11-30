@@ -129,7 +129,7 @@ public final class FuzzyAI {
         
         // Input para adicionar o caminho do JSON
         JTextField inputCaminhoJSON = new JTextField(40);
-        inputCaminhoJSON.setText("C:\\Users\\cassiano.vellames.TOPOS\\Desktop\\FuzzyAI-Java\\config.json");
+        inputCaminhoJSON.setText("/home/vellames/Documents/Faculdade/Inteligencia Artificial/FuzzyAI/FuzzyAI/config.json");
         inputCaminhoJSON.setEditable(false);
         
         // Botão de importação
@@ -289,7 +289,8 @@ public final class FuzzyAI {
                     
                     // Defuzzificacao
                     IDefuzzificacao defuzzificacao = (IDefuzzificacao) Class.forName(ConfiguracoesSistema.PACOTE_DEFUZZIFICACAO + "." + modeloFuzzy.getModoDefuzzificacao()).newInstance();
-                    defuzzificacao.defuzzificar();
+                    VariavelFuzzyficada variavel =  defuzzificacao.defuzzificar(modeloFuzzy, fuzzyficacao);
+                    System.out.println(variavel.toString());
                 } catch (Exception ex) {
                     ex.printStackTrace();
                     JOptionPane.showMessageDialog(null, ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);

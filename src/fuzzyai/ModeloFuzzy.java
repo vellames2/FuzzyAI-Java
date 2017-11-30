@@ -5,8 +5,6 @@ import org.json.*;
 
 import fuzzyai.configuracoes.CalculoConector;
 import fuzzyai.configuracoes.Configuracoes;
-import fuzzyai.variavel.funcoespertinencia.Trapezio;
-import fuzzyai.variavel.funcoespertinencia.Triangulo;
 import fuzzyai.inferencia.Regra;
 import fuzzyai.reflexao.ReflexaoFuncaoPertinencia;
 import java.io.BufferedReader;
@@ -71,6 +69,12 @@ public final class ModeloFuzzy {
      * Classe usada para a defuzzificacao
      */
     private String modoDefuzzificacao;
+    
+    /**
+     * Precisão usada na defuzzificação
+     * Quanto menor o valor, mais preciso e mais custoso o calculo será
+     */
+    private double precisaoDefuzzificacao;
     
     /**
      * Objeto JSON com todas as informações do modelo, essa variavel é preenchida
@@ -247,6 +251,22 @@ public final class ModeloFuzzy {
     public void setModoDefuzzificacao(String modoDefuzzificacao) {
         this.modoDefuzzificacao = modoDefuzzificacao;
     }
+    
+    /**
+     * Recupera o a precisão usada durante a defuzzificacao
+     * @return Retorna o a precisão usada durante a defuzzificacao
+     */
+    public double getPrecisaoDefuzzificacao() {
+        return precisaoDefuzzificacao;
+    }
+    
+    /**
+     * Seta a precisão usada na defuzzificacao
+     * @param precisaoDefuzzificacao Precisão
+     */
+    public void setPrecisaoDefuzzificacao(double precisaoDefuzzificacao) {
+        this.precisaoDefuzzificacao = precisaoDefuzzificacao;
+    }
 
     ///////////////////////////////////////////////////////////////////////////////////////////////////
     
@@ -417,6 +437,7 @@ public final class ModeloFuzzy {
         this.setModoFuzzificacao(configuracoes.getString("fuzzyfication"));
         this.setModoInferencia(configuracoes.getString("inference"));
         this.setModoDefuzzificacao(configuracoes.getString("deffuzyfication"));
+        this.setPrecisaoDefuzzificacao(configuracoes.getDouble("precision"));
     }
     
     /**
