@@ -2,6 +2,7 @@ package fuzzyai.defuzzificacao;
 
 import fuzzyai.ModeloFuzzy;
 import fuzzyai.fuzzificacao.IFuzzificacao;
+import fuzzyai.inferencia.Imagem;
 import fuzzyai.inferencia.VariavelFuzzyficada;
 import fuzzyai.utils.Reta;
 import java.awt.geom.Point2D;
@@ -15,19 +16,15 @@ public final class Centroid implements IDefuzzificacao{
     
     /**
      * Realiza a defuzzificacao
+     * @param imagem Imagem gerada pela inferencia
      * @param modeloFuzzy Modelo fuzzy com todas as inforações carregadas
      * @param fuzzyFuzzificacao Objeto usado na fuzzificacao
      * @return Retorna a variavel de saida fuzzificada
      * @throws Exception Exceções serão lançadas para o chamador da funçao
      */
     @Override
-    public VariavelFuzzyficada defuzzificar(ModeloFuzzy modeloFuzzy, IFuzzificacao fuzzyFuzzificacao) throws Exception {
-        List<Point2D.Double> pontos = new ArrayList<>();
-        pontos.add(new Point2D.Double(0, 0.66));
-        pontos.add(new Point2D.Double(30, 0.66));
-        pontos.add(new Point2D.Double(50, 0.33));
-        pontos.add(new Point2D.Double(70, 0.33));
-        pontos.add(new Point2D.Double(90, 0));
+    public VariavelFuzzyficada defuzzificar(Imagem imagem, ModeloFuzzy modeloFuzzy, IFuzzificacao fuzzyFuzzificacao) throws Exception {
+        List<Point2D.Double> pontos = imagem.getPontos();
                
         List<Double> divisor = new ArrayList<>();
         List<Double> dividendo = new ArrayList<>();

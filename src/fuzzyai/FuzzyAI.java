@@ -1,10 +1,7 @@
 package fuzzyai;
 
-import fuzzyai.defuzzificacao.Centroid;
 import fuzzyai.defuzzificacao.IDefuzzificacao;
 import fuzzyai.inferencia.IInferencia;
-import fuzzyai.fuzzificacao.FuzzificacaoPadrao;
-import fuzzyai.inferencia.InferenciaPadrao;
 import fuzzyai.inferencia.VariavelFuzzyficada;
 import java.awt.BorderLayout;
 import java.awt.Component;
@@ -26,9 +23,7 @@ import java.io.File;
 import java.util.List;
 import javax.swing.JOptionPane;
 import fuzzyai.fuzzificacao.IFuzzificacao;
-import fuzzyai.utils.Reta;
-import java.awt.Point;
-import java.awt.geom.Point2D;
+import fuzzyai.inferencia.Imagem;
 
 public final class FuzzyAI {
     
@@ -288,11 +283,12 @@ public final class FuzzyAI {
                     
                     // Inferencia
                     IInferencia inferencia = (IInferencia) Class.forName(ConfiguracoesSistema.PACOTE_INFERENCIA + "." + modeloFuzzy.getModoInferencia()).newInstance();
-                    inferencia.inferir(variaveisFuzzyficadas, modeloFuzzy);
+                    Imagem imagem = inferencia.inferir(variaveisFuzzyficadas, modeloFuzzy);
                     
                     // Defuzzificacao
                     IDefuzzificacao defuzzificacao = (IDefuzzificacao) Class.forName(ConfiguracoesSistema.PACOTE_DEFUZZIFICACAO + "." + modeloFuzzy.getModoDefuzzificacao()).newInstance();
-                    VariavelFuzzyficada variavel =  defuzzificacao.defuzzificar(modeloFuzzy, fuzzyficacao);
+                    VariavelFuzzyficada variavel =  defuzzificacao.defuzzificar(imagem, modeloFuzzy, fuzzyficacao);
+                    
                     System.out.println(variavel.toString());
                 } catch (Exception ex) {
                     ex.printStackTrace();
