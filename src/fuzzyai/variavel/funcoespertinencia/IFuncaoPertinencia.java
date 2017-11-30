@@ -1,5 +1,8 @@
 package fuzzyai.variavel.funcoespertinencia;
 
+import java.awt.geom.Point2D;
+import java.util.List;
+
 /**
  * Abstração das funções de pertinencia de uma variavel fuzzy
  * Atualmente com suporte para triangulo e trapezio
@@ -38,4 +41,6 @@ public interface IFuncaoPertinencia {
      * @return Retorna o valor de pertinencia dado um ponto x
      */
     public double getValorPertinencia(double x);
+    
+    public List<Point2D.Double> pontosY(double y);
 }

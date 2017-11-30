@@ -26,13 +26,16 @@ import java.io.File;
 import java.util.List;
 import javax.swing.JOptionPane;
 import fuzzyai.fuzzificacao.IFuzzificacao;
+import fuzzyai.utils.Reta;
+import java.awt.Point;
+import java.awt.geom.Point2D;
 
 public final class FuzzyAI {
     
     public static int largura = 800;
     public static int altura = 600;
 
-    public static void main(String[] args){
+    public static void main(String[] args){   
         // Tela da aplicação
         JFrame telaPrincipal = FuzzyAI.criarTelaPrincipal();
         

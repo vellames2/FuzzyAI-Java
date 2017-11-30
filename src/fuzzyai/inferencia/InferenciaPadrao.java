@@ -2,6 +2,10 @@
 
 import fuzzyai.ModeloFuzzy;
 import fuzzyai.configuracoes.CalculoConector;
+import fuzzyai.utils.VariavelFuzzyUtils;
+import fuzzyai.variavel.VariavelFuzzy;
+import fuzzyai.variavel.funcoespertinencia.IFuncaoPertinencia;
+import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -150,6 +154,15 @@ public class InferenciaPadrao implements IInferencia{
     }
     
     private void somarImagens(List<ResultadoRegra> resultadoRegras, ModeloFuzzy modeloFuzzy) {
-        // AQUI LEO
+        this.encontrarPontosImagem(resultadoRegras, modeloFuzzy);
+    }
+    
+    private void encontrarPontosImagem(List<ResultadoRegra> resultadoRegras, ModeloFuzzy modeloFuzzy) throws IllegalArgumentException{
+        VariavelFuzzy variavelSaida = modeloFuzzy.getVariavelInferencia();
+        for(ResultadoRegra resultadoRegra : resultadoRegras) {
+            IFuncaoPertinencia funcaoPertinencia = VariavelFuzzyUtils.recuperarFuncaoPertinenciaPorNome(variavelSaida, resultadoRegra.getConsequente());
+            List<Point2D.Double> pontos = funcaoPertinencia.pontosY(resultadoRegra.getValor());
+            System.out.println(pontos.toString());
+        }
     }
 }

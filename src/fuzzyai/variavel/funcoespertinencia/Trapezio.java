@@ -1,6 +1,10 @@
 package fuzzyai.variavel.funcoespertinencia;
 
 import fuzzyai.reflexao.AnotacaoVariavelFuzzy;
+import fuzzyai.utils.Reta;
+import java.awt.geom.Point2D;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Implementação do Trapezio, um tipo de função de pertinencia
@@ -185,5 +189,45 @@ public final class Trapezio implements IFuncaoPertinencia {
         }
         
         throw new IllegalArgumentException("O valor passado não contempla nenhuma formula do trapézio " + this.getNome());
+    }
+    
+    @Override
+    public List<Point2D.Double> pontosY(double y) {
+        double x1,x2,y1,y2;
+        List<Point2D.Double> pontosY = new ArrayList<>();
+        
+        if(this.getPrimeiroPonto() != -1) {
+            pontosY.add(new Point2D.Double(this.getA(), y));
+            y1 = 0;
+            x1 = this.getA();
+            
+            y2 = 1;
+            x2 = this.getB();
+            
+            Point2D.Double inicioReta = new Point2D.Double(x1, y1);
+            Point2D.Double fimReta = new Point2D.Double(x2, y2);
+            pontosY.add(new Point2D.Double(new Reta(inicioReta, fimReta).obterPontoXPorY(y), y));
+        } else {
+            pontosY.add(new Point2D.Double(this.getB(), y));
+        }
+        
+        if(this.getUltimoPonto() != -1) {
+            y1 = 1;
+            x1 = this.getC();
+            
+            y2 = 0;
+            x2 = this.getD();
+            
+            Point2D.Double inicioReta = new Point2D.Double(x1, y1);
+            Point2D.Double fimReta = new Point2D.Double(x2, y2);
+            pontosY.add(new Point2D.Double(new Reta(inicioReta, fimReta).obterPontoXPorY(y), y));
+            pontosY.add(new Point2D.Double(this.getD(), 0));
+        } else if(this.getC() != -1) {
+            pontosY.add(new Point2D.Double(this.getC(), y));
+        }
+        
+        
+        
+        return pontosY;
     }
 }

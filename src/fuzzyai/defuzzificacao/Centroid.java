@@ -3,6 +3,7 @@ package fuzzyai.defuzzificacao;
 import fuzzyai.ModeloFuzzy;
 import fuzzyai.fuzzificacao.IFuzzificacao;
 import fuzzyai.inferencia.VariavelFuzzyficada;
+import fuzzyai.utils.Reta;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.List;
@@ -35,12 +36,9 @@ public final class Centroid implements IDefuzzificacao{
         for(int i = 0; i < pontos.size() - 1; i++) {
             Point2D.Double inicioReta = pontos.get(i);
             Point2D.Double fimReta = pontos.get(i + 1);
-            
-            // Recupera o coeficiente angular da reta a qual o ponto pertence
-            double coeficienteAngular = this.calcularCoeficienteAngularReta(inicioReta, fimReta);
-            
+            Reta reta = new Reta(inicioReta, fimReta);
             for(double pontoAtual = inicioReta.getX(); pontoAtual <= fimReta.getX() - precisaoCentroid; pontoAtual+= precisaoCentroid) {
-                double y = this.obterPontoYPorX(coeficienteAngular, inicioReta, pontoAtual);
+                double y = reta.obterPontoYPorX(pontoAtual);
                 divisor.add(pontoAtual * y);
                 dividendo.add(y);
             } 
@@ -58,26 +56,5 @@ public final class Centroid implements IDefuzzificacao{
         
         // Retorna a fuzzificacao da variavel de saida
         return fuzzyFuzzificacao.fuzzificarVariavel(modeloFuzzy.getVariavelInferencia(), somaImagem);
-    }
-    
-    /**
-     * Calcula o coeficiente angular de uma reta
-     * @param inicioReta Ponto de inicio da reta
-     * @param fimReta Ponto final da reta
-     * @return Retorna o coeficiente angular da reta
-     */
-    private double calcularCoeficienteAngularReta(Point2D.Double inicioReta, Point2D.Double fimReta) {
-        return (fimReta.getY() - inicioReta.getY()) / (fimReta.getX() - inicioReta.getX());
-    }
-    
-    /**
-     * Aplica a equação da reta para encontrar o ponto Y dado o ponto X
-     * @param coeficienteAngular
-     * @param inicioReta
-     * @param x
-     * @return 
-     */
-    private double obterPontoYPorX(double coeficienteAngular, Point2D.Double inicioReta, double x) {
-        return ((coeficienteAngular * x) - (coeficienteAngular * inicioReta.getX())) + inicioReta.getY();
     }
 }
