@@ -1,4 +1,4 @@
-    package fuzzyai.inferencia;
+package fuzzyai.inferencia;
 
 import fuzzyai.ModeloFuzzy;
 import fuzzyai.configuracoes.CalculoConector;
@@ -153,18 +153,31 @@ public class InferenciaPadrao implements IInferencia{
         return regrasValidas;
     }
     
+    /**
+     * Realiza a soma das imagens enviadas pela inferencia
+     * @param resultadoRegras Resultados entregados pela primeira parte da inferencia
+     * @param modeloFuzzy Modelo fuzzy com o json preenchido
+     * @return Retorna a soma das imagens enviadas pela primeira parte da inferencia
+     */
     private Imagem somarImagens(List<ResultadoRegra> resultadoRegras, ModeloFuzzy modeloFuzzy) {
         List<Imagem> imagens = this.encontrarPontosImagem(resultadoRegras, modeloFuzzy);
         Imagem imagem = this.somarImagens(imagens);
         return imagem;
     }
     
+    /**
+     * Encontra os pontos restantes nas imagens geradas pelos resultados das regras
+     * @param resultadoRegras Regras entregadas pela primeira parte da inferencia
+     * @param modeloFuzzy Modelo fuzzy com o json preenchido
+     * @return Retorna uma lista de imagens que representa todas as regras validas da inferencia
+     * @throws IllegalArgumentException Caso alguma função de pertinencia não exista, uma exceção é lançada
+     */
     private List<Imagem> encontrarPontosImagem(List<ResultadoRegra> resultadoRegras, ModeloFuzzy modeloFuzzy) throws IllegalArgumentException{
         // Lista de imagens que será retornada
         List<Imagem> imagens = new ArrayList<>();
         
         // Variavel de saida
-        VariavelFuzzy variavelSaida = modeloFuzzy.getVariavelInferencia();
+        VariavelFuzzy variavelSaida = modeloFuzzy.getVariavelSaida();
         
         // Recupera a imagem gerada para cada resultado das regras da inferencia
         for(ResultadoRegra resultadoRegra : resultadoRegras) {
@@ -173,7 +186,7 @@ public class InferenciaPadrao implements IInferencia{
             IFuncaoPertinencia funcaoPertinencia = VariavelFuzzyUtils.recuperarFuncaoPertinenciaPorNome(variavelSaida, resultadoRegra.getConsequente());
             
             // Recupera a imagem gerada
-            Imagem imagem = new Imagem(funcaoPertinencia.pontosY(resultadoRegra.getValor()));
+            Imagem imagem = new Imagem(funcaoPertinencia.pontosImagem(resultadoRegra.getValor()));
             
             // Adiciona imagem a lista
             imagens.add(imagem);
@@ -185,6 +198,11 @@ public class InferenciaPadrao implements IInferencia{
         return imagens;
     }
     
+    /**
+     * Realiza a soma de uma lista de imagens
+     * @param imagens Lista de imagem
+     * @return Retorna a imagem somada
+     */
     private Imagem somarImagens(List<Imagem> imagens){
         Imagem imagemSomada = null;
         int i = 0;
@@ -200,6 +218,12 @@ public class InferenciaPadrao implements IInferencia{
         return imagemSomada;
     }
     
+    /**
+     * Realiza a soma de duas imagens
+     * @param imagem1 Primeira imagem
+     * @param imagem2 Segunda imagem
+     * @return Retorna a soma das duas imagens
+     */
     private Imagem somar(Imagem imagem1, Imagem imagem2){
         Imagem imagemFinal = new Imagem();
   

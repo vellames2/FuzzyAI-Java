@@ -191,8 +191,13 @@ public final class Trapezio implements IFuncaoPertinencia {
         throw new IllegalArgumentException("O valor passado não contempla nenhuma formula do trapézio " + this.getNome());
     }
     
+    /**
+     * Recupera os pontos da função de pertinencia dado um valor Y
+     * @param y Valor Y a ser usado na imagem
+     * @return Retorna os pontos da função de pertinencia dado um valor Y
+     */
     @Override
-    public List<Point2D.Double> pontosY(double y) {
+    public List<Point2D.Double> pontosImagem(double y) {
         double x1,x2,y1,y2;
         List<Point2D.Double> pontosY = new ArrayList<>();
         
@@ -225,8 +230,6 @@ public final class Trapezio implements IFuncaoPertinencia {
         } else if(this.getC() != -1) {
             pontosY.add(new Point2D.Double(this.getC(), y));
         }
-        
-        
         
         return pontosY;
     }

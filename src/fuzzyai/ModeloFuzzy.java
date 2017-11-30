@@ -43,7 +43,7 @@ public final class ModeloFuzzy {
     /**
      * Variavel usada na inferencia
      */
-    private VariavelFuzzy variavelInferencia;
+    private VariavelFuzzy variavelSaida;
     
     /**
      * Configurações que serão usadas durante a inferencia e deffuzyficaçao
@@ -192,16 +192,16 @@ public final class ModeloFuzzy {
      * Recupera a varaivel usada na inferencia
      * @return Retorna a variavel usada na inferencia
      */
-    public VariavelFuzzy getVariavelInferencia() {
-        return variavelInferencia;
+    public VariavelFuzzy getVariavelSaida() {
+        return this.variavelSaida;
     }
     
     /**
      * Seta a variavel usada na inferencia
-     * @param variavelInferencia Variavel usada na inferencia
+     * @param variavelSaida Variavel usada na inferencia
      */
-    public void setVariavelInferencia(VariavelFuzzy variavelInferencia) {
-        this.variavelInferencia = variavelInferencia;
+    public void setVariavelSaida(VariavelFuzzy variavelSaida) {
+        this.variavelSaida = variavelSaida;
     }
     
     /**
@@ -517,6 +517,6 @@ public final class ModeloFuzzy {
             funcoesPertinencia.add(funcaoPertinencia);
         }
         
-        this.setVariavelInferencia(new VariavelFuzzy(variavelJSON.getString("name"), funcoesPertinencia));
+        this.setVariavelSaida(new VariavelFuzzy(variavelJSON.getString("name"), funcoesPertinencia));
     }
 }

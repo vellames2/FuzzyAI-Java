@@ -42,5 +42,10 @@ public interface IFuncaoPertinencia {
      */
     public double getValorPertinencia(double x);
     
-    public List<Point2D.Double> pontosY(double y);
+    /**
+     * Recupera os pontos da função de pertinencia dado um valor Y
+     * @param y Valor Y a ser usado na imagem
+     * @return Retorna os pontos da função de pertinencia dado um valor Y
+     */
+    public List<Point2D.Double> pontosImagem(double y);
 }

@@ -52,6 +52,6 @@ public final class Centroid implements IDefuzzificacao{
         System.out.println(somaImagem);
         
         // Retorna a fuzzificacao da variavel de saida
-        return fuzzyFuzzificacao.fuzzificarVariavel(modeloFuzzy.getVariavelInferencia(), somaImagem);
+        return fuzzyFuzzificacao.fuzzificarVariavel(modeloFuzzy.getVariavelSaida(), somaImagem);
     }
 }
