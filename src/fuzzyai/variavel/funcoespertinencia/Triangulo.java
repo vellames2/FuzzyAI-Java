@@ -164,7 +164,7 @@ public final class Triangulo implements IFuncaoPertinencia {
             return 0;
         }
         
-        throw new IllegalArgumentException("O valor passado não contempla nenhuma formula do triangulo " + this.getNome());
+        throw new IllegalArgumentException("O valor passado não contempla nenhuma função de pertinencia");
     }
     
     /**

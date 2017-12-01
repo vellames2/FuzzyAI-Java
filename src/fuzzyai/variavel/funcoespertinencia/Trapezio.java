@@ -189,7 +189,7 @@ public final class Trapezio implements IFuncaoPertinencia {
             return 0;
         }
         
-        throw new IllegalArgumentException("O valor passado não contempla nenhuma formula do trapézio " + this.getNome());
+        throw new IllegalArgumentException("O valor passado não contempla nenhuma função de pertinencia");
     }
     
     /**

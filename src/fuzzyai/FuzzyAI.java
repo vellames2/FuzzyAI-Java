@@ -212,11 +212,9 @@ public final class FuzzyAI {
         btnJava.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 try {
-                    java.awt.Desktop.getDesktop().browse(new java.net.URI("http://www.google.com"));
-                } catch (URISyntaxException ex) {
-                    Logger.getLogger(FuzzyAI.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (IOException ex) {
-                    Logger.getLogger(FuzzyAI.class.getName()).log(Level.SEVERE, null, ex);
+                    java.awt.Desktop.getDesktop().browse(new java.net.URI("http://iadpsi-javadoc.herokuapp.com/"));
+                } catch (Exception ex) {
+                    JOptionPane.showMessageDialog(null, "Não foi possível abrir o browser, por favor acesse o link abaixo para ter acesso ao conteudo:\nhttp://iadpsi-javadoc.herokuapp.com");
                 }
             }
         });
