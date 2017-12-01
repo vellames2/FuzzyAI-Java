@@ -26,14 +26,17 @@ public final class Centroid implements IDefuzzificacao{
     public VariavelFuzzyficada defuzzificar(Imagem imagem, ModeloFuzzy modeloFuzzy, IFuzzificacao fuzzyFuzzificacao) throws Exception {
         List<Point2D.Double> pontos = imagem.getPontos();
                
-        List<Double> divisor = new ArrayList<>();
-        List<Double> dividendo = new ArrayList<>();
+        List<Double> divisor = new ArrayList<>(); // Lista que armazena os valores da multiplicação dos pontos X e Y
+        List<Double> dividendo = new ArrayList<>(); // Lista que armazena os valores da multiplicação dos pontos Y
         double precisaoCentroid = modeloFuzzy.getPrecisaoDefuzzificacao();
-        
+                
+        // Cálculo da equação da reta para as variações no valor de Y
         for(int i = 0; i < pontos.size() - 1; i++) {
             Point2D.Double inicioReta = pontos.get(i);
             Point2D.Double fimReta = pontos.get(i + 1);
             Reta reta = new Reta(inicioReta, fimReta);
+            
+            // Acrescimo dos valores ás listas
             for(double pontoAtual = inicioReta.getX(); pontoAtual <= fimReta.getX() - precisaoCentroid; pontoAtual+= precisaoCentroid) {
                 double y = reta.obterPontoYPorX(pontoAtual);
                 divisor.add(pontoAtual * y);
