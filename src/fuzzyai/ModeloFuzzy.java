@@ -361,7 +361,8 @@ public final class ModeloFuzzy {
      * @param json Objeto JSON com o modelo fuzzy já carregado
      * @throws Exception Qualquer excessão será enviada para o chamador da função
      */
-    private void carregarVariaveis(JSONObject jsonObject) throws Exception {        
+    private void carregarVariaveis(JSONObject jsonObject) throws Exception {   
+        ArrayList<VariavelFuzzy> variaveisLista = new ArrayList<>();
         // Recupera todas as variaveis fuzzy de entrada do json
         JSONArray variaveis = jsonObject.getJSONObject("variables").getJSONArray("input");
         
@@ -400,8 +401,9 @@ public final class ModeloFuzzy {
             }
             
             // Adiciona variavel fuzzy ao 
-            this.variaveisFuzzy.add(new VariavelFuzzy(nomeVariavel, funcoesPertinencia));
+            variaveisLista.add(new VariavelFuzzy(nomeVariavel, funcoesPertinencia));
         }
+        this.setVariaveisFuzzy(variaveisLista);
     }
     
     /**

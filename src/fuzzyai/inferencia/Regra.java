@@ -4,7 +4,6 @@ import java.util.List;
 
 /**
  * Classe que representa uma regra da inferencia
- * @author Cassiano Vellames <c.vellames@outlook.com>
  */
 public final class Regra {
     /**
