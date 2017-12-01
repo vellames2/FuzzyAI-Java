@@ -130,7 +130,7 @@ public final class TelaResultado extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 FileWriter arq;
                 try {
-                    String caminho = System.getProperty("user.dir") + File.separator + "Resultado.txt";
+                    String caminho = System.getProperty("user.dir") + File.separator + "Resultado_Fuzzy" +new Date().getTime()  +".txt";
                     arq = new FileWriter(caminho);
                     PrintWriter gravarArq = new PrintWriter(arq);
                     gravarArq.printf(txtFinal);
