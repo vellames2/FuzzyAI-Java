@@ -19,7 +19,7 @@
     "fuzzyfication": "FuzzificacaoPadrao",
     "inference": "InferenciaPadrao",
     "deffuzyfication": "Centroid",
-    "precision": 1
+    "precision": 0.001
   },
   "variables": {
     "input": [

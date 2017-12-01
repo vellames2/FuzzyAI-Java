@@ -1,6 +1,7 @@
 package fuzzyai.variavel.funcoespertinencia;
 
 import fuzzyai.reflexao.AnotacaoVariavelFuzzy;
+import fuzzyai.utils.DecimalUtils;
 import fuzzyai.utils.Reta;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
@@ -140,6 +141,7 @@ public final class Triangulo implements IFuncaoPertinencia {
      */
     @Override
     public double getValorPertinencia(double x) {
+        x = DecimalUtils.round(x, 5);
         boolean naoNulo;
         
         naoNulo = this.getA() != -1;

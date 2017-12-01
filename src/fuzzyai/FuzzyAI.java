@@ -127,7 +127,7 @@ public final class FuzzyAI {
         
         // Input para adicionar o caminho do JSON
         JTextField inputCaminhoJSON = new JTextField(40);
-        inputCaminhoJSON.setText("C:\\Users\\cassiano.vellames.TOPOS\\Desktop\\FuzzyAI-Java\\config.json");
+        inputCaminhoJSON.setText("/home/vellames/Documents/Faculdade/Inteligencia Artificial/FuzzyAI/FuzzyAI/config.json");
         inputCaminhoJSON.setEditable(false);
         
         // Botão de importação

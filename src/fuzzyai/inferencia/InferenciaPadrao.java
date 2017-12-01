@@ -23,7 +23,23 @@ public class InferenciaPadrao implements IInferencia{
     @Override
     public Imagem inferir(List<VariavelFuzzyficada> varaiveisFuzzyficadas, ModeloFuzzy modeloFuzzy) throws Exception {
         List<ResultadoRegra> resultadoRegras =  this.aplicarRegras(varaiveisFuzzyficadas, modeloFuzzy);
-        return this.somarImagens(resultadoRegras, modeloFuzzy);
+        Imagem imagemSoma = this.somarImagens(resultadoRegras, modeloFuzzy);
+        List<Point2D.Double> pontosUnicos = new ArrayList<>();
+        for(Point2D.Double pontoSoma : imagemSoma.getPontos()) {
+            boolean existePonto = false;
+            for(Point2D.Double pontoUnico : pontosUnicos) {
+                if(pontoUnico.getX() == pontoSoma.getX() && pontoUnico.getY() == pontoSoma.getY()) {
+                    existePonto = true;
+                    break;
+                }
+            }
+            
+            if(!existePonto) {
+                pontosUnicos.add(pontoSoma);
+            }
+        }
+        
+        return new Imagem(pontosUnicos);
     }
     
     /**
@@ -161,7 +177,7 @@ public class InferenciaPadrao implements IInferencia{
      */
     private Imagem somarImagens(List<ResultadoRegra> resultadoRegras, ModeloFuzzy modeloFuzzy) {
         List<Imagem> imagens = this.encontrarPontosImagem(resultadoRegras, modeloFuzzy);
-        Imagem imagem = this.somarImagens(imagens);
+        Imagem imagem = this.somarListaImagens(imagens);
         return imagem;
     }
     
@@ -203,13 +219,14 @@ public class InferenciaPadrao implements IInferencia{
      * @param imagens Lista de imagem
      * @return Retorna a imagem somada
      */
-    private Imagem somarImagens(List<Imagem> imagens){
+    private Imagem somarListaImagens(List<Imagem> imagens){
         Imagem imagemSomada = null;
+
         int i = 0;
-        for(Imagem x : imagens){
-            if(i==0){
+        for(Imagem x : imagens) {
+            if(i == 0) {
                 imagemSomada = x;
-            }else{
+            } else {
                 imagemSomada = somar(imagemSomada, x);               
             }    
             i++;
@@ -225,82 +242,81 @@ public class InferenciaPadrao implements IInferencia{
      * @return Retorna a soma das duas imagens
      */
     private Imagem somar(Imagem imagem1, Imagem imagem2){
-        Imagem imagemFinal = new Imagem();
-  
-        List<Point2D.Double> pontos1 = imagem1.getPontos();
-        List<Point2D.Double> pontos2 = imagem2.getPontos();
-
-        Point2D.Double menorX = new Point2D.Double();
+        List<Point2D.Double> pontosSoma = new ArrayList<>();
+        List<Point2D.Double> pontosImagemA = imagem1.getPontos();
+        List<Point2D.Double> pontosImagemB = imagem2.getPontos();
         
-        //ACHA O MENOR X NA PRIMEIRA IMAGEM
-        for(int i = 0; i < pontos1.size(); i++){
-            if(i==0){
-                menorX = pontos1.get(i);
-            }else{
-                if(menorX.getX() > pontos1.get(i).getX()){
-                    menorX = pontos1.get(i);
+        List<Point2D.Double> arrayMenorX = null;
+        List<Point2D.Double> arrayMaiorX = null;
+        
+        // Verifica o menor X
+        if(pontosImagemA.get(0).getX() < pontosImagemB.get(0).getX()) {
+            pontosSoma.add(pontosImagemA.get(0));
+            pontosImagemA.remove(0);
+            
+            arrayMenorX = pontosImagemA;
+            arrayMaiorX = pontosImagemB;
+        } else if(pontosImagemB.get(0).getX() < pontosImagemA.get(0).getX()) {
+            pontosSoma.add(pontosImagemB.get(0));
+            pontosImagemB.remove(0);
+            
+            arrayMenorX = pontosImagemB;
+            arrayMaiorX = pontosImagemA;
+        } else {
+            if(pontosImagemA.get(0).getY() > pontosImagemB.get(0).getY()) {
+                pontosSoma.add(pontosImagemA.get(0));
+                
+                arrayMenorX = pontosImagemA;
+                arrayMaiorX = pontosImagemB;
+            } else {
+                pontosSoma.add(pontosImagemB.get(0));
+                
+                arrayMenorX = pontosImagemB;
+                arrayMaiorX = pontosImagemA;
+            }
+            
+            pontosImagemA.remove(0);
+            pontosImagemB.remove(0);
+        }
+        
+        for(int a = 0; a < arrayMenorX.size(); a++) {
+            boolean continuarLaco = true;
+            while(continuarLaco) {
+                if (arrayMaiorX.isEmpty()) {
+                    pontosSoma.add(arrayMenorX.get(a));
+                    continuarLaco = false;
+                } else if (arrayMenorX.get(a).getX() > arrayMaiorX.get(0).getX()) {
+                    double x = arrayMaiorX.get(0).getX();
+                    double y = (arrayMaiorX.get(0).getY() > arrayMenorX.get(a).getY() ? arrayMaiorX.get(0).getY() : arrayMenorX.get(a).getY());
+                    pontosSoma.add(new Point2D.Double(x, y));
+                    arrayMaiorX.remove(0);
+                } else if (arrayMenorX.get(a).getX() < arrayMaiorX.get(0).getX()) {
+                    double x = arrayMenorX.get(a).getX();
+                    double y = (arrayMaiorX.get(0).getY() > arrayMenorX.get(a).getY() ? arrayMaiorX.get(0).getY() : arrayMenorX.get(a).getY());
+                    pontosSoma.add(new Point2D.Double(x, y));
+                    continuarLaco = false;
+                } else {
+                    if(arrayMenorX.get(a).getY() >= arrayMaiorX.get(0).getY()) {
+                        double x = arrayMaiorX.get(0).getX();
+                        double y = arrayMenorX.get(a).getY();
+                        pontosSoma.add(new Point2D.Double(x, y));
+                        arrayMaiorX.remove(0);
+                    } else {
+                        double x = arrayMaiorX.get(0).getX();
+                        double y = arrayMaiorX.get(0).getY();
+                        pontosSoma.add(new Point2D.Double(x, y));
+                        continuarLaco = false;
+                    }
                 }
-            }            
-        }
-        
-        //ACHA O MENOR X NA SEGUNDA IMAGEM
-        for(int i = 0; i < pontos2.size(); i++){
-                if(menorX.getX() > pontos2.get(i).getX()){
-                    menorX = pontos2.get(i);
-            }            
-        }
-        
-        imagemFinal.addPonto(menorX);
-        
-        //ENCONTRA OUTRO PONTO COM MESMA ALTURA NA PRIMEIRA IMAGEM
-         Point2D.Double primeiroY = menorX;
-         Point2D.Double segundoPonto = new Point2D.Double();
-        for(int i = 0; i < pontos1.size(); i++){
-            if(primeiroY.getY() < pontos1.get(i).getY() && menorX.getX() < pontos1.get(i).getX()){
-                segundoPonto = pontos1.get(i);
-            }
-        }
-        //ENCONTRA OUTRO PONTO COM MESMA ALTURA NA SEGUNDA IMAGEM
-        for(int i = 0; i < pontos2.size(); i++){
-            if(primeiroY.getY() <= pontos2.get(i).getY() && menorX.getX() < pontos2.get(i).getX()){
-                segundoPonto = pontos2.get(i);
             }
         }
         
-        imagemFinal.addPonto(segundoPonto);
-        Point2D.Double maiorY = new Point2D.Double();
-        //ENCONTRA PROXIMA MAIOR ALTURA NA PRIMEIRA IMAGEM
-        for(int i = 0; i < pontos1.size(); i++){            
-            if(maiorY.getY() < pontos1.get(i).getY() && segundoPonto.getX() < pontos1.get(i).getX()){
-                maiorY = pontos1.get(i);
-            }
+        for(Point2D.Double ponto : arrayMaiorX) {
+            pontosSoma.add(ponto);
         }
-        //ENCONTRA PROXIMA MAIOR ALTURA NA SEGUNDA IMAGEM
-        for(int i = 0; i < pontos2.size(); i++){
-            if(maiorY.getY() < pontos2.get(i).getY() && segundoPonto.getX() < pontos2.get(i).getX()){
-                maiorY = pontos2.get(i);
-            }
-        }
-        imagemFinal.addPonto(maiorY);
         
-        Point2D.Double maiorX = new Point2D.Double();
-        //ENCONTRA PROXIMO PONTO COM MAIOR X E Y NA PRIMEIRA IMAGEM
-        for(int i = 0; i < pontos1.size(); i++){
-            if(maiorY.getX() < pontos1.get(i).getX() || (maiorY.getX() == pontos1.get(i).getX() && maiorY.getY() > pontos1.get(i).getY() )){
-                maiorX = pontos1.get(i);
-            }
-        }
-        //ENCONTRA PROXIMO PONTO COM MAIOR X E Y NA SEGUNDA IMAGEM
-        for(int i = 0; i < pontos2.size(); i++){
-            if(maiorY.getX() < pontos2.get(i).getX() || (maiorY.getX() == pontos2.get(i).getX() && maiorY.getY() > pontos2.get(i).getY() )){
-                maiorX = pontos2.get(i);
-            }
-        }
-        imagemFinal.addPonto(maiorX);
-        System.out.println("Imagem de entrada 1: "+pontos1);
-        System.out.println("Imagem de entrada 2: "+pontos2);
-        System.out.println("Imagem de saida: "+imagemFinal.pontos);
-        return imagemFinal;
+        Imagem imagemSomada = new Imagem(pontosSoma);
+        return imagemSomada;
     }
     
 }
